@@ -55,23 +55,75 @@ export const steps = [
 
 export type CalcMode = 'basic' | 'programmer' | 'finance' | 'engineering'
 
+export type Platform = 'windows' | 'mac' | 'android' | 'ios' | 'web'
+
+// latest/download — всегда последняя версия, имена файлов в релизах без номера версии
+const REL = 'https://github.com/workvibecoding398-sys/smartcalc/releases/latest/download/'
+const WEB_APP = 'https://workvibecoding398-sys.github.io/smartcalc/'
+
 export const smartcalc = {
   name: 'SmartCalc',
-  version: '1.0.2',
-  text: 'Калькулятор для Windows с четырьмя режимами в одном окне. Бесплатно, без регистрации.',
-  requirements: 'Windows 10/11, 64-bit',
+  version: '1.1.0',
+  text: 'Калькулятор с четырьмя режимами в одном окне — для Windows, Mac, Android и iPhone. Бесплатно, без регистрации.',
   modes: [
     { id: 'basic', label: 'Базовый', text: 'Обычные вычисления и память MC / MR / M+ / M−.' },
     { id: 'programmer', label: 'Программист', text: 'HEX, DEC, OCT, BIN, AND / OR / XOR / NOT и сдвиги.' },
     { id: 'finance', label: 'Финансы', text: 'Кредит, вклад, НДС и маржа.' },
     { id: 'engineering', label: 'Инженер', text: 'Перевод длины, массы и температуры.' },
   ] as { id: CalcMode; label: string; text: string }[],
-  features: ['История вычислений', 'Светлая и тёмная тема', 'Окно поверх остальных'],
-  download: {
-    label: 'Скачать для Windows',
-    size: '118 МБ',
-    url: 'https://github.com/workvibecoding398-sys/smartcalc/releases/download/v1.0.2/SmartCalc-Setup-1.0.2.exe',
-  },
+  features: ['История вычислений', 'Светлая и тёмная тема', 'Работает без интернета'],
+  webAppUrl: WEB_APP,
   releasesUrl: 'https://github.com/workvibecoding398-sys/smartcalc/releases',
-  note: 'Приложение не подписано сертификатом, поэтому Windows SmartScreen может показать предупреждение: нажмите «Подробнее» → «Выполнить в любом случае».',
+  platforms: [
+    {
+      id: 'windows',
+      label: 'Windows',
+      requirements: 'Windows 10/11, 64-bit',
+      downloads: [
+        { label: 'Скачать для Windows', hint: 'установщик .exe', url: `${REL}SmartCalc-Setup.exe` },
+        { label: 'Portable', hint: 'без установки', url: `${REL}SmartCalc-Portable.exe` },
+      ],
+      note: 'Приложение не подписано платным сертификатом, поэтому SmartScreen может предупредить: нажмите «Подробнее» → «Выполнить в любом случае».',
+    },
+    {
+      id: 'mac',
+      label: 'macOS',
+      requirements: 'Mac на Apple Silicon или Intel',
+      downloads: [
+        { label: 'Скачать для Mac', hint: 'Apple Silicon (M1–M4)', url: `${REL}SmartCalc-mac-arm64.dmg` },
+        { label: 'Mac с Intel', hint: '.dmg', url: `${REL}SmartCalc-mac-x64.dmg` },
+      ],
+      note: 'Перетащите SmartCalc в «Программы». При первом запуске macOS попросит подтверждение: «Системные настройки» → «Конфиденциальность и безопасность» → «Всё равно открыть».',
+    },
+    {
+      id: 'android',
+      label: 'Android',
+      requirements: 'Android 7.0 и новее',
+      downloads: [
+        { label: 'Скачать APK', hint: 'для Android', url: `${REL}SmartCalc.apk` },
+        { label: 'Веб-версия', hint: 'установить из Chrome', url: WEB_APP },
+      ],
+      note: 'Откройте скачанный файл и разрешите установку из этого источника — Android спросит об этом один раз.',
+    },
+    {
+      id: 'ios',
+      label: 'iPhone и iPad',
+      requirements: 'Safari на iPhone или iPad',
+      downloads: [{ label: 'Открыть SmartCalc', hint: 'в Safari', url: WEB_APP }],
+      note: 'Откройте ссылку в Safari, нажмите «Поделиться» → «На экран Домой». Калькулятор появится как обычное приложение и будет работать без интернета.',
+    },
+    {
+      id: 'web',
+      label: 'Браузер',
+      requirements: 'Любой современный браузер',
+      downloads: [{ label: 'Открыть в браузере', hint: 'без установки', url: WEB_APP }],
+      note: 'В Chrome и Edge веб-версию можно установить как приложение: значок «Установить» в адресной строке.',
+    },
+  ] as {
+    id: Platform
+    label: string
+    requirements: string
+    downloads: { label: string; hint: string; url: string }[]
+    note: string
+  }[],
 }

@@ -1,9 +1,20 @@
 import { useState, type PointerEvent } from 'react'
-import { Check, Download, ShieldAlert } from 'lucide-react'
-import { smartcalc } from '../data/content'
+import { Check, Download, ExternalLink, Info } from 'lucide-react'
+import { smartcalc, type Platform } from '../data/content'
 import type { Theme } from '../hooks/useTheme'
 
 const AUTOPLAY_MS = 4000
+
+// Платформа посетителя — чтобы сразу показать нужную кнопку
+function detectPlatform(): Platform {
+  const ua = navigator.userAgent
+  if (/android/i.test(ua)) return 'android'
+  // iPadOS притворяется Mac, но у него есть сенсорный экран
+  if (/iphone|ipad|ipod/i.test(ua) || (/macintosh/i.test(ua) && navigator.maxTouchPoints > 0)) return 'ios'
+  if (/macintosh|mac os x/i.test(ua)) return 'mac'
+  if (/windows/i.test(ua)) return 'windows'
+  return 'web'
+}
 
 // Наклон скриншота за курсором: задаёт --rx/--ry для CSS
 function tilt(e: PointerEvent<HTMLDivElement>) {
@@ -23,7 +34,9 @@ export function SmartCalc({ theme }: { theme: Theme }) {
   const { modes } = smartcalc
   const [index, setIndex] = useState(0)
   const [paused, setPaused] = useState(false)
+  const [platformId, setPlatformId] = useState<Platform>(detectPlatform)
   const mode = modes[index]
+  const platform = smartcalc.platforms.find((p) => p.id === platformId) ?? smartcalc.platforms[0]
 
   // Автосмена режимов: полоска прогресса на активной вкладке — CSS-анимация,
   // по её окончании переключаемся. На паузе (наведение/фокус) анимация стоит.
@@ -83,22 +96,52 @@ export function SmartCalc({ theme }: { theme: Theme }) {
             ))}
           </ul>
 
-          <div className="actions" data-reveal>
-            <a className="btn btn-primary btn-shine" href={smartcalc.download.url}>
-              <Download size={18} aria-hidden="true" />
-              {smartcalc.download.label}
-            </a>
-            <a className="btn btn-ghost" href={smartcalc.releasesUrl} target="_blank" rel="noreferrer">
-              Все версии
-            </a>
+          <div className="download" data-reveal>
+            <div className="platforms" role="tablist" aria-label="Платформа">
+              {smartcalc.platforms.map((p) => (
+                <button
+                  key={p.id}
+                  role="tab"
+                  aria-selected={p.id === platform.id}
+                  aria-controls="download-panel"
+                  className="platform"
+                  onClick={() => setPlatformId(p.id)}
+                >
+                  {p.label}
+                </button>
+              ))}
+            </div>
+
+            <div id="download-panel" role="tabpanel" key={platform.id} className="download-panel">
+              <div className="actions">
+                {platform.downloads.map((d, i) => {
+                  const isWeb = d.url === smartcalc.webAppUrl
+                  return (
+                    <a
+                      key={d.url}
+                      className={`btn ${i === 0 ? 'btn-primary btn-shine' : 'btn-ghost'} btn-dl`}
+                      href={d.url}
+                      {...(isWeb ? { target: '_blank', rel: 'noreferrer' } : {})}
+                    >
+                      {isWeb ? <ExternalLink size={18} aria-hidden="true" /> : <Download size={18} aria-hidden="true" />}
+                      <span>
+                        {d.label}
+                        <small>{d.hint}</small>
+                      </span>
+                    </a>
+                  )
+                })}
+              </div>
+              <p className="muted">
+                Версия {smartcalc.version} · {platform.requirements} ·{' '}
+                <a href={smartcalc.releasesUrl} target="_blank" rel="noreferrer">все версии</a>
+              </p>
+              <p className="note">
+                <Info size={16} aria-hidden="true" />
+                {platform.note}
+              </p>
+            </div>
           </div>
-          <p className="muted" data-reveal>
-            Версия {smartcalc.version} · {smartcalc.download.size} · {smartcalc.requirements}
-          </p>
-          <p className="note" data-reveal>
-            <ShieldAlert size={16} aria-hidden="true" />
-            {smartcalc.note}
-          </p>
         </div>
 
         <div className="calc-stage" data-reveal>

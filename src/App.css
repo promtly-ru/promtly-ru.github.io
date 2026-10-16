@@ -282,6 +282,25 @@ article.card-spot:hover { translate: 0 -6px; box-shadow: var(--shadow); }
 @keyframes tab-progress { to { transform: scaleX(1); } }
 .mode-text { min-height: 1.6em; color: var(--muted); margin-bottom: 20px; animation: fade-in 0.4s var(--ease); }
 @keyframes fade-in { from { opacity: 0; transform: translateY(6px); } }
+/* Скачивание: переключатель платформ + кнопки выбранной платформы */
+.download {
+  margin-top: 24px; padding: 6px; border-radius: 18px;
+  background: var(--card); border: 1px solid var(--border); box-shadow: var(--card-shadow);
+}
+.platforms { display: flex; flex-wrap: wrap; gap: 4px; padding: 2px; }
+.platform {
+  flex: 1 1 auto; font: inherit; font-size: 0.875rem; cursor: pointer; white-space: nowrap;
+  padding: 8px 12px; border-radius: 12px; border: 0; background: transparent; color: var(--muted);
+  transition: background-color 0.2s, color 0.2s;
+}
+.platform:hover { color: var(--fg); background: var(--accent-soft); }
+.platform[aria-selected='true'] { background: var(--accent-soft); color: var(--accent); font-weight: 600; }
+.download-panel { padding: 4px 12px 12px; animation: fade-in 0.35s var(--ease); }
+.download-panel .actions { margin: 12px 0 10px; }
+.download-panel .muted a { color: inherit; }
+.btn-dl span { display: flex; flex-direction: column; line-height: 1.25; text-align: left; }
+.btn-dl small { font-size: 0.75rem; font-weight: 500; opacity: 0.75; }
+
 .note {
   display: flex; gap: 8px; align-items: flex-start;
   font-size: 0.85rem; color: var(--muted);
@@ -381,6 +400,11 @@ article.card-spot:hover { translate: 0 -6px; box-shadow: var(--shadow); }
   .hero { padding: 80px 0 64px; }
 }
 @media (max-width: 520px) {
+  /* Вкладки платформ — одной прокручиваемой строкой, кнопки скачивания — во всю ширину */
+  .platforms { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+  .platforms::-webkit-scrollbar { display: none; }
+  .platform { flex: 0 0 auto; }
+  .download-panel .btn-dl { flex: 1 1 100%; justify-content: center; }
   .nav { gap: 14px; }
   .nav a { font-size: 0.875rem; }
   .logo-text { display: none; }

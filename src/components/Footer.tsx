@@ -33,9 +33,10 @@ export function Footer() {
 
         <div className="footer-col">
           <h3>{smartcalc.name}</h3>
-          <a href={smartcalc.download.url}>
+          <a href="#smartcalc">
             <Download size={14} aria-hidden="true" /> Скачать v{smartcalc.version}
           </a>
+          <a href={smartcalc.webAppUrl} target="_blank" rel="noreferrer">Веб-версия</a>
           <a href={smartcalc.releasesUrl} target="_blank" rel="noreferrer">Все версии на GitHub</a>
         </div>
       </div>
