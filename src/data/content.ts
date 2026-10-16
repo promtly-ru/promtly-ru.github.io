@@ -58,8 +58,8 @@ export type CalcMode = 'basic' | 'programmer' | 'finance' | 'engineering'
 export type Platform = 'windows' | 'mac' | 'android' | 'ios' | 'web'
 
 // latest/download — всегда последняя версия, имена файлов в релизах без номера версии
-const REL = 'https://github.com/workvibecoding398-sys/smartcalc/releases/latest/download/'
-const WEB_APP = 'https://workvibecoding398-sys.github.io/smartcalc/'
+const REL = 'https://github.com/promtly-ru/smartcalc/releases/latest/download/'
+const WEB_APP = 'https://promtly-ru.github.io/smartcalc/'
 
 export const smartcalc = {
   name: 'SmartCalc',
@@ -73,7 +73,7 @@ export const smartcalc = {
   ] as { id: CalcMode; label: string; text: string }[],
   features: ['История вычислений', 'Светлая и тёмная тема', 'Работает без интернета'],
   webAppUrl: WEB_APP,
-  releasesUrl: 'https://github.com/workvibecoding398-sys/smartcalc/releases',
+  releasesUrl: 'https://github.com/promtly-ru/smartcalc/releases',
   platforms: [
     {
       id: 'windows',
