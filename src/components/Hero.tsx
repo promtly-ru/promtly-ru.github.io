@@ -93,10 +93,10 @@ export function Hero() {
         </h1>
         <p className="lead hero-in" style={delay(200)}>{profile.about}</p>
         <div className="actions hero-in" style={delay(300)}>
-          <a className="btn btn-primary btn-shine" href="#contacts">
+          <a className="btn btn-primary btn-shine magnetic" href="#brief">
             Обсудить задачу <ArrowRight size={18} aria-hidden="true" />
           </a>
-          <a className="btn btn-ghost" href="#smartcalc">
+          <a className="btn btn-ghost magnetic" href="#smartcalc">
             <Download size={18} aria-hidden="true" /> Скачать SmartCalc
           </a>
         </div>

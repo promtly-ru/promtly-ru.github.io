@@ -2,6 +2,7 @@ import { useEffect, useState, type CSSProperties } from 'react'
 import { Check, Copy, Mail, MessageCircle, Send } from 'lucide-react'
 import { contacts } from '../data/content'
 import { spotlight } from '../hooks/usePageEffects'
+import { Scramble } from './Scramble'
 
 const items = [
   { ...contacts.telegram, Icon: Send, external: true },
@@ -30,7 +31,7 @@ export function Contacts() {
   return (
     <section className="section" id="contacts">
       <div className="container">
-        <h2 data-reveal>Контакты</h2>
+        <h2 data-reveal><Scramble text="Контакты" /></h2>
         <p className="section-lead" data-reveal>Напишите, где вам удобнее — отвечу в течение дня.</p>
         <div className="grid">
           {items.map(({ label, value, url, Icon, external }, i) => (

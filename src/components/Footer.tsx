@@ -20,7 +20,9 @@ export function Footer() {
           <h3>Разделы</h3>
           <a href="#services">Услуги</a>
           <a href="#services">Как работаю</a>
+          <a href="#brief">Собрать заявку</a>
           <a href="#smartcalc">SmartCalc</a>
+          <a href="#terminal">Терминал</a>
           <a href="#contacts">Контакты</a>
         </nav>
 

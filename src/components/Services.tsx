@@ -2,6 +2,7 @@ import type { CSSProperties } from 'react'
 import { AppWindow, Check, Globe, Workflow } from 'lucide-react'
 import { priceNote, services, steps, type ServiceIcon } from '../data/content'
 import { spotlight } from '../hooks/usePageEffects'
+import { Scramble } from './Scramble'
 
 const icons: Record<ServiceIcon, typeof Globe> = {
   web: Globe,
@@ -15,7 +16,7 @@ export function Services() {
   return (
     <section className="section" id="services">
       <div className="container">
-        <h2 data-reveal>Услуги</h2>
+        <h2 data-reveal><Scramble text="Услуги" /></h2>
         <p className="section-lead" data-reveal>{priceNote}</p>
         <div className="grid">
           {services.map((s, i) => {
