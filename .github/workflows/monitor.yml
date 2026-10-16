@@ -56,8 +56,11 @@ jobs:
           # команды только от владельца и не старше 6 минут
           cmds=$(echo "$updates" | jq -r --arg chat "$TG_CHAT" --argjson now "$now_ts" \
             '.result[]?.message | select((.chat.id|tostring)==$chat and ($now - .date) < 360) | .text // empty')
-          echo "now=$now_ts updates=$(echo "$updates" | jq -c '[.result[]?.message | {c:.chat.id, d:.date, t:.text}]')"
-          echo "cmds=[$cmds]"
+          # подтверждаем обработанные сообщения, чтобы не отвечать дважды
+          last=$(echo "$updates" | jq -r '[.result[]?.update_id] | max // empty')
+          if [ -n "$last" ]; then
+            curl -s -m 20 -o /dev/null "$TG_API/getUpdates?offset=$((last+1))&timeout=0"
+          fi
           if echo "$cmds" | grep -q '^/status'; then
             if [ "${{ steps.check.outputs.ok }}" = "1" ]; then
               text="🟢 <b>Сайт работает</b>
@@ -83,6 +86,7 @@ jobs:
           /help - эта справка
 
           ⏱ Ответы на команды приходят с задержкой до 5 минут."
+
             curl -s -m 20 "$TG_API/sendMessage" --data-urlencode "chat_id=$TG_CHAT" \
               --data-urlencode "parse_mode=HTML" --data-urlencode "text=$text"
           fi
