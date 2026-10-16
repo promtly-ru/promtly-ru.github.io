@@ -1,24 +1,31 @@
+import { ArrowUp } from 'lucide-react'
 import { Header } from './components/Header'
 import { Hero } from './components/Hero'
 import { Services } from './components/Services'
 import { SmartCalc } from './components/SmartCalc'
 import { Contacts } from './components/Contacts'
-import { profile } from './data/content'
+import { Footer } from './components/Footer'
+import { useTheme } from './hooks/useTheme'
+import { usePageEffects } from './hooks/usePageEffects'
 import './App.css'
 
 export default function App() {
+  const { theme, toggle } = useTheme()
+  usePageEffects()
+
   return (
     <>
-      <Header />
+      <Header theme={theme} onToggleTheme={toggle} />
       <main>
         <Hero />
         <Services />
-        <SmartCalc />
+        <SmartCalc theme={theme} />
         <Contacts />
       </main>
-      <footer className="footer">
-        <div className="container">© {profile.name}</div>
-      </footer>
+      <Footer />
+      <a className="to-top" href="#top" aria-label="Наверх">
+        <ArrowUp size={20} aria-hidden="true" />
+      </a>
     </>
   )
 }

@@ -8,9 +8,19 @@
     <title>Promptly — сайты, боты и приложения на заказ</title>
     <meta name="description" content="Разработка сайтов, Telegram-ботов, автоматизации и десктоп-приложений. Скачать SmartCalc для Windows." />
     <meta property="og:title" content="Promptly — сайты, боты и приложения на заказ" />
-    <meta property="og:image" content="/img/smartcalc-basic.png" />
+    <meta property="og:image" content="/img/smartcalc-dark-basic.png" />
     <meta property="og:description" content="Услуги разработки и бесплатный калькулятор SmartCalc для Windows." />
     <meta property="og:type" content="website" />
+    <script>
+      // Тема до загрузки React, чтобы не мигала: сохранённая или системная
+      try {
+        var t = localStorage.getItem('promptly-theme')
+        if (t !== 'light' && t !== 'dark') t = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark'
+        document.documentElement.dataset.theme = t
+      } catch (e) {
+        document.documentElement.dataset.theme = 'dark'
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>

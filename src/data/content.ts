@@ -2,10 +2,18 @@
 
 export const profile = {
   name: 'Promptly',
-  tagline: 'Сайты, боты и программы под ваши задачи',
+  // Заголовок первого экрана: «Делаю <слово> под ваши задачи», слова сменяются по очереди
+  headlineWords: ['сайты', 'Telegram-боты', 'программы', 'автоматизацию'],
   about:
     'Разрабатываю сайты, Telegram-боты, скрипты автоматизации и десктоп-приложения для Windows. Обсуждаем задачу, договариваемся о цене и сроках — и я делаю под ключ.',
+  footer: 'Разработка сайтов, ботов и приложений под ключ.',
 }
+
+export const stats = [
+  { value: 3, suffix: '', label: 'направления услуг' },
+  { value: 4, suffix: '', label: 'режима в SmartCalc' },
+  { value: 24, suffix: ' ч', label: 'максимум до ответа' },
+]
 
 export const contacts = {
   telegram: { label: 'Telegram', value: '@nothing8931', url: 'https://t.me/nothing8931' },
@@ -45,9 +53,11 @@ export const steps = [
   { title: 'Сдаю', text: 'Передаю готовый проект и помогаю с запуском.' },
 ]
 
+export type CalcMode = 'basic' | 'programmer' | 'finance' | 'engineering'
+
 export const smartcalc = {
   name: 'SmartCalc',
-  version: '1.0.0',
+  version: '1.0.1',
   text: 'Калькулятор для Windows с четырьмя режимами в одном окне. Бесплатно, без регистрации.',
   requirements: 'Windows 10/11, 64-bit',
   modes: [
@@ -55,12 +65,13 @@ export const smartcalc = {
     { id: 'programmer', label: 'Программист', text: 'HEX, DEC, OCT, BIN, AND / OR / XOR / NOT и сдвиги.' },
     { id: 'finance', label: 'Финансы', text: 'Кредит, вклад, НДС и маржа.' },
     { id: 'engineering', label: 'Инженер', text: 'Перевод длины, массы и температуры.' },
-  ],
+  ] as { id: CalcMode; label: string; text: string }[],
   features: ['История вычислений', 'Светлая и тёмная тема', 'Окно поверх остальных'],
   download: {
     label: 'Скачать для Windows',
     size: '118 МБ',
-    url: 'https://github.com/workvibecoding398-sys/smartcalc/releases/download/v1.0.0/SmartCalc-Setup-1.0.0.exe',
+    url: 'https://github.com/workvibecoding398-sys/smartcalc/releases/download/v1.0.1/SmartCalc-Setup-1.0.1.exe',
   },
+  releasesUrl: 'https://github.com/workvibecoding398-sys/smartcalc/releases',
   note: 'Приложение не подписано сертификатом, поэтому Windows SmartScreen может показать предупреждение: нажмите «Подробнее» → «Выполнить в любом случае».',
 }
