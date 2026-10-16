@@ -10,24 +10,37 @@
   --accent-2: #3dd9c5;
   --accent-soft: rgba(16, 192, 127, 0.12);
   --accent-fg: #04140d;
+  --blob-1: var(--accent);
+  --blob-2: var(--accent-2);
+  --blob-3: #6366f1;
   --blob-opacity: 0.35;
+  --grid-line: var(--border);
+  --card-shadow: none;
+  --btn-shadow: none;
   --shadow: 0 30px 80px -20px rgba(0, 0, 0, 0.7);
   --radius: 16px;
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
   color-scheme: dark;
 }
 :root[data-theme='light'] {
-  --bg: #ffffff;
-  --bg-alt: #f3f6f4;
+  --bg: #f7f9f8;
+  --bg-alt: #edf3ef;
   --fg: #121614;
-  --muted: #55605b;
+  --muted: #526059;
   --card: #ffffff;
-  --border: #dde4e0;
+  --border: #dbe4de;
   --accent: #047857;
   --accent-2: #0d9488;
-  --accent-soft: rgba(4, 120, 87, 0.1);
+  --accent-soft: rgba(4, 120, 87, 0.09);
   --accent-fg: #ffffff;
-  --blob-opacity: 0.22;
+  /* Пастельные пятна вместо приглушённых акцентных — на светлом фоне не мутнеют */
+  --blob-1: #6ee7b7;
+  --blob-2: #67e8f9;
+  --blob-3: #c4b5fd;
+  --blob-opacity: 0.5;
+  --grid-line: rgba(4, 120, 87, 0.08);
+  --card-shadow: 0 1px 2px rgba(16, 40, 30, 0.05), 0 12px 32px -20px rgba(16, 40, 30, 0.28);
+  --btn-shadow: 0 10px 22px -12px rgba(4, 120, 87, 0.7);
   --shadow: 0 30px 70px -25px rgba(15, 40, 30, 0.35);
   color-scheme: light;
 }
@@ -52,7 +65,11 @@ a { color: inherit; }
 .section { padding: 96px 0; position: relative; }
 .section-alt { background: var(--bg-alt); border-block: 1px solid var(--border); transition: background-color 0.3s; }
 .section-lead { color: var(--muted); margin-bottom: 32px; }
-.eyebrow { color: var(--accent); font-weight: 600; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em; }
+.eyebrow {
+  display: inline-block; padding: 4px 12px; border-radius: 999px;
+  background: var(--accent-soft); color: var(--accent);
+  font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em;
+}
 .lead { color: var(--muted); font-size: 1.15rem; max-width: 620px; }
 .muted { color: var(--muted); font-size: 0.9rem; }
 
@@ -93,6 +110,7 @@ a { color: inherit; }
 .icon-btn {
   display: inline-grid; place-items: center; width: 38px; height: 38px; flex: none;
   border-radius: 10px; border: 1px solid var(--border); background: var(--card); color: var(--fg);
+  box-shadow: var(--card-shadow);
   cursor: pointer; transition: border-color 0.2s, transform 0.2s, color 0.2s;
 }
 .icon-btn:hover { border-color: var(--accent); color: var(--accent); }
@@ -122,22 +140,27 @@ a { color: inherit; }
 .hero-in { opacity: 0; transform: translateY(20px); animation: rise 0.8s var(--ease) forwards; animation-delay: var(--d, 0ms); }
 @keyframes rise { to { opacity: 1; transform: none; } }
 
-.hero-bg { position: absolute; inset: 0; pointer-events: none; }
+/* Маска снизу: пятна растворяются, а не обрезаются ровной линией на границе блока */
+.hero-bg {
+  position: absolute; inset: 0; pointer-events: none;
+  mask-image: linear-gradient(to bottom, #000 65%, transparent);
+  -webkit-mask-image: linear-gradient(to bottom, #000 65%, transparent);
+}
 .blob {
   position: absolute; border-radius: 50%; filter: blur(70px); opacity: var(--blob-opacity);
   will-change: transform;
 }
-.blob-1 { width: 520px; height: 520px; top: -180px; right: -120px; background: var(--accent); animation: float1 18s ease-in-out infinite alternate; }
-.blob-2 { width: 420px; height: 420px; top: 120px; right: 25%; background: var(--accent-2); animation: float2 22s ease-in-out infinite alternate; }
-.blob-3 { width: 360px; height: 360px; bottom: -200px; left: -100px; background: #6366f1; opacity: calc(var(--blob-opacity) * 0.6); animation: float3 26s ease-in-out infinite alternate; }
+.blob-1 { width: 520px; height: 520px; top: -180px; right: -120px; background: var(--blob-1); animation: float1 18s ease-in-out infinite alternate; }
+.blob-2 { width: 420px; height: 420px; top: 120px; right: 25%; background: var(--blob-2); animation: float2 22s ease-in-out infinite alternate; }
+.blob-3 { width: 360px; height: 360px; bottom: -120px; left: -100px; background: var(--blob-3); opacity: calc(var(--blob-opacity) * 0.6); animation: float3 26s ease-in-out infinite alternate; }
 @keyframes float1 { to { transform: translate(-140px, 120px) scale(1.15); } }
 @keyframes float2 { to { transform: translate(160px, -60px) scale(0.85); } }
 @keyframes float3 { to { transform: translate(180px, -120px) scale(1.2); } }
 .hero-grid {
   position: absolute; inset: 0;
   background-image:
-    linear-gradient(var(--border) 1px, transparent 1px),
-    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
   background-size: 48px 48px;
   mask-image: radial-gradient(70% 60% at 70% 20%, #000 10%, transparent 75%);
   -webkit-mask-image: radial-gradient(70% 60% at 70% 20%, #000 10%, transparent 75%);
@@ -164,9 +187,9 @@ a { color: inherit; }
 }
 .btn:hover { transform: translateY(-2px); }
 .btn:active { transform: translateY(0) scale(0.98); }
-.btn-primary { background: var(--accent); color: var(--accent-fg); }
+.btn-primary { background: linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 70%, var(--accent-2))); color: var(--accent-fg); box-shadow: var(--btn-shadow); }
 .btn-primary:hover { box-shadow: 0 10px 30px -8px var(--accent); }
-.btn-ghost { border-color: var(--border); background: var(--card); }
+.btn-ghost { border-color: var(--border); background: var(--card); box-shadow: var(--card-shadow); }
 .btn-ghost:hover { border-color: var(--accent); }
 .btn svg { transition: transform 0.2s var(--ease); }
 .btn:hover svg:last-child { transform: translateX(3px); }
@@ -184,6 +207,7 @@ a { color: inherit; }
   position: relative; overflow: hidden;
   background: var(--card); border: 1px solid var(--border);
   border-radius: var(--radius); padding: 24px;
+  box-shadow: var(--card-shadow);
   /* opacity/transform — появление (с задержкой --d), translate — подъём при наведении (без задержки) */
   transition:
     opacity 0.7s var(--ease) var(--d, 0ms),
@@ -235,6 +259,7 @@ article.card-spot:hover { translate: 0 -6px; box-shadow: var(--shadow); }
   font: inherit; font-size: 0.95rem; cursor: pointer;
   padding: 8px 16px; border-radius: 999px;
   border: 1px solid var(--border); background: var(--card); color: var(--fg);
+  box-shadow: var(--card-shadow);
   transition: background-color 0.3s, border-color 0.3s, color 0.3s, transform 0.2s;
 }
 .tab:hover { border-color: var(--accent); }
@@ -254,6 +279,7 @@ article.card-spot:hover { translate: 0 -6px; box-shadow: var(--shadow); }
   display: flex; gap: 8px; align-items: flex-start;
   font-size: 0.85rem; color: var(--muted);
   padding: 12px 14px; border-radius: 12px; border: 1px dashed var(--border);
+  background: color-mix(in srgb, var(--card) 60%, transparent);
 }
 .note svg { flex: none; margin-top: 3px; }
 
