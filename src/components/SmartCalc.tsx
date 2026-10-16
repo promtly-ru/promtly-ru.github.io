@@ -40,7 +40,16 @@ export function SmartCalc({ theme }: { theme: Theme }) {
       >
         <div className="calc-text">
           <p className="eyebrow" data-reveal>Мой продукт</p>
-          <h2 data-reveal>{smartcalc.name}</h2>
+          <h2 className="calc-title" data-reveal>
+            <img
+              className="calc-icon"
+              src={`/img/smartcalc-icon-${theme}.svg`}
+              alt=""
+              width={52}
+              height={52}
+            />
+            {smartcalc.name}
+          </h2>
           <p className="lead" data-reveal>{smartcalc.text}</p>
 
           <div className="tabs" role="tablist" aria-label="Режимы SmartCalc" data-reveal>

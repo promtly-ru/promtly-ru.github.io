@@ -24,6 +24,9 @@ export function usePageEffects() {
       els.forEach((el) => el.classList.add('is-visible'))
     }
 
+    // Ссылка вида /#contacts: браузер ищет якорь до рендера React, поэтому прокручиваем сами
+    if (location.hash) document.getElementById(decodeURIComponent(location.hash.slice(1)))?.scrollIntoView()
+
     let frame = 0
     const onScroll = () => {
       cancelAnimationFrame(frame)

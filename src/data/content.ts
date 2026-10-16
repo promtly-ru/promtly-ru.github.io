@@ -57,7 +57,7 @@ export type CalcMode = 'basic' | 'programmer' | 'finance' | 'engineering'
 
 export const smartcalc = {
   name: 'SmartCalc',
-  version: '1.0.1',
+  version: '1.0.2',
   text: 'Калькулятор для Windows с четырьмя режимами в одном окне. Бесплатно, без регистрации.',
   requirements: 'Windows 10/11, 64-bit',
   modes: [
@@ -70,7 +70,7 @@ export const smartcalc = {
   download: {
     label: 'Скачать для Windows',
     size: '118 МБ',
-    url: 'https://github.com/workvibecoding398-sys/smartcalc/releases/download/v1.0.1/SmartCalc-Setup-1.0.1.exe',
+    url: 'https://github.com/workvibecoding398-sys/smartcalc/releases/download/v1.0.2/SmartCalc-Setup-1.0.2.exe',
   },
   releasesUrl: 'https://github.com/workvibecoding398-sys/smartcalc/releases',
   note: 'Приложение не подписано сертификатом, поэтому Windows SmartScreen может показать предупреждение: нажмите «Подробнее» → «Выполнить в любом случае».',

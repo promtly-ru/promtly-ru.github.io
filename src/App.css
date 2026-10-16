@@ -252,6 +252,13 @@ article.card-spot:hover { translate: 0 -6px; box-shadow: var(--shadow); }
 .steps li:hover .step-num { background: var(--accent); color: var(--accent-fg); transform: scale(1.1); }
 
 /* ---------- SmartCalc ---------- */
+.calc-title { display: flex; align-items: center; gap: 14px; }
+.calc-icon {
+  width: 52px; height: 52px; flex: none;
+  filter: drop-shadow(0 8px 16px rgba(4, 120, 87, 0.3));
+  transition: transform 0.4s var(--ease);
+}
+.calc-title:hover .calc-icon { transform: rotate(-8deg) scale(1.06); }
 .calc { display: grid; gap: 56px; grid-template-columns: 1.15fr 1fr; align-items: center; }
 .tabs { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0 8px; }
 .tab {
