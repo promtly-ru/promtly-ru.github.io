@@ -48,7 +48,8 @@ export function Brief() {
   }
 
   const enc = encodeURIComponent
-  const whatsapp = `${contacts.whatsapp.url}?text=${enc(message)}`
+  const telegram = `${contacts.telegram.url}?text=${enc(message)}`
+  const whatsapp =`${contacts.whatsapp.url}?text=${enc(message)}`
   // В mailto переводы строк по стандарту — CRLF, иначе часть почтовых клиентов склеит строки
   const email = `${contacts.email.url}?subject=${enc(`Заявка: ${type ?? 'новая задача'}`)}&body=${enc(message.replace(/\n/g, '\r\n'))}`
 
@@ -124,11 +125,12 @@ export function Brief() {
               </a>
               <a
                 className="btn btn-ghost magnetic"
-                href={contacts.telegram.url}
+                href={telegram}
                 target="_blank"
                 rel="noreferrer"
                 onClick={() => {
-                  copy(true).then((ok) => ok && toast('Текст скопирован — вставьте его в чат Telegram'))
+                  // Текст подставляется ссылкой, а копия в буфере — запасной вариант, если клиент его не принял
+                  copy(true).then((ok) => ok && toast('Заявка скопирована — если она не появилась в чате, вставьте её'))
                   sent()
                 }}
               >
