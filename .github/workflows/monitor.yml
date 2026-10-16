@@ -1,0 +1,90 @@
+name: Site monitor
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  SITE_URL: https://workvibecoding398-sys.github.io/
+  TG_API: https://api.telegram.org/bot${{ secrets.TG_TOKEN }}
+  TG_CHAT: ${{ secrets.TG_CHAT_ID }}
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Check site
+        id: check
+        run: |
+          ok=0; code=000; ms=0
+          for i in 1 2 3; do
+            out=$(curl -s -o /dev/null -m 15 -w '%{http_code} %{time_total}' "$SITE_URL" || true)
+            code=${out%% *}
+            ms=$(awk -v t="${out##* }" 'BEGIN{printf "%d", t*1000}')
+            echo "attempt $i: $code ${ms}ms"
+            if [ "$code" = "200" ]; then ok=1; break; fi
+            sleep 10
+          done
+          echo "ok=$ok" >> "$GITHUB_OUTPUT"
+          echo "code=$code" >> "$GITHUB_OUTPUT"
+          echo "ms=$ms" >> "$GITHUB_OUTPUT"
+
+      - name: Alert on failure
+        if: steps.check.outputs.ok != '1'
+        run: |
+          now=$(date -u '+%d.%m.%Y %H:%M UTC')
+          text="🔴 <b>Сайт не отвечает</b>
+
+          🌐 $SITE_URL
+          ⚠️ Код ответа: <code>${{ steps.check.outputs.code }}</code>
+          🕒 $now
+          🔁 Проверено 3 раза подряд"
+          curl -s -m 20 "$TG_API/sendMessage" \
+            --data-urlencode "chat_id=$TG_CHAT" \
+            --data-urlencode "parse_mode=HTML" \
+            --data-urlencode "text=$text"
+
+      - name: Answer commands
+        run: |
+          now_ts=$(date +%s)
+          updates=$(curl -s -m 20 "$TG_API/getUpdates?timeout=0&allowed_updates=%5B%22message%22%5D")
+          # команды только от владельца и не старше 6 минут
+          cmds=$(echo "$updates" | jq -r --arg chat "$TG_CHAT" --argjson now "$now_ts" \
+            '.result[]?.message | select((.chat.id|tostring)==$chat and ($now - .date) < 360) | .text // empty')
+          if echo "$cmds" | grep -q '^/status'; then
+            if [ "${{ steps.check.outputs.ok }}" = "1" ]; then
+              text="🟢 <b>Сайт работает</b>
+
+          🌐 $SITE_URL
+          ⚡ Ответ: <code>${{ steps.check.outputs.ms }} мс</code>
+          📡 Код: <code>200</code>"
+            else
+              text="🔴 <b>Сайт недоступен</b>
+
+          🌐 $SITE_URL
+          ⚠️ Код: <code>${{ steps.check.outputs.code }}</code>"
+            fi
+            curl -s -m 20 "$TG_API/sendMessage" --data-urlencode "chat_id=$TG_CHAT" \
+              --data-urlencode "parse_mode=HTML" --data-urlencode "text=$text"
+          fi
+          if echo "$cmds" | grep -q '^/\(help\|start\)'; then
+            text="👋 <b>Promptly Monitor</b>
+
+          Слежу за сайтом каждые 5 минут и пишу, если он упал.
+
+          /status - состояние сейчас
+          /help - эта справка
+
+          ⏱ Ответы на команды приходят с задержкой до 5 минут."
+            curl -s -m 20 "$TG_API/sendMessage" --data-urlencode "chat_id=$TG_CHAT" \
+              --data-urlencode "parse_mode=HTML" --data-urlencode "text=$text"
+          fi
+
+      - name: Fail job when site is down
+        if: steps.check.outputs.ok != '1'
+        run: exit 1
