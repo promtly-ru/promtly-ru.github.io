@@ -56,6 +56,8 @@ jobs:
           # команды только от владельца и не старше 6 минут
           cmds=$(echo "$updates" | jq -r --arg chat "$TG_CHAT" --argjson now "$now_ts" \
             '.result[]?.message | select((.chat.id|tostring)==$chat and ($now - .date) < 360) | .text // empty')
+          echo "now=$now_ts updates=$(echo "$updates" | jq -c '[.result[]?.message | {c:.chat.id, d:.date, t:.text}]')"
+          echo "cmds=[$cmds]"
           if echo "$cmds" | grep -q '^/status'; then
             if [ "${{ steps.check.outputs.ok }}" = "1" ]; then
               text="🟢 <b>Сайт работает</b>
