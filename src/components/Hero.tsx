@@ -101,6 +101,16 @@ export function Hero() {
           </a>
         </div>
 
+        <p className="hint hero-in" style={delay(350)}>
+          <button type="button" className="hint-chip" onClick={() => window.dispatchEvent(new Event('promptly:palette'))}>
+            <kbd>Ctrl</kbd><kbd>K</kbd> быстрый поиск по сайту
+          </button>
+          <span className="hint-sep" aria-hidden="true">·</span>
+          <a className="hint-chip" href="#faq">Частые вопросы</a>
+          <span className="hint-sep" aria-hidden="true">·</span>
+          <a className="hint-chip" href="#terminal">Попробуй терминал</a>
+        </p>
+
         <dl className="stats hero-in" style={delay(400)}>
           {stats.map((s) => (
             <div key={s.label}>

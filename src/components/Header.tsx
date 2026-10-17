@@ -87,6 +87,7 @@ export function Header({ theme, onToggleTheme }: Props) {
               onClick={() => setOpen(false)}
             >
               {l.label}
+              {l.id === 'faq' && <span className="badge-new" aria-hidden="true">new</span>}
             </a>
           ))}
         </nav>
@@ -98,6 +99,7 @@ export function Header({ theme, onToggleTheme }: Props) {
           title="Палитра команд (Ctrl+K)"
         >
           <Search size={18} aria-hidden="true" />
+          <span className="palette-kbd" aria-hidden="true">Ctrl K</span>
         </button>
         <button className="icon-btn theme-btn" onClick={onToggleTheme} aria-label={`Включить ${next} тему`} title={`Включить ${next} тему`}>
           {theme === 'dark' ? <Sun size={18} aria-hidden="true" /> : <Moon size={18} aria-hidden="true" />}
