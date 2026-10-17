@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Menu, Moon, Sun, X } from 'lucide-react'
+import { Menu, Moon, Search, Sun, X } from 'lucide-react'
 import { profile } from '../data/content'
 import type { Theme } from '../hooks/useTheme'
 import { confetti, toast } from '../lib/fx'
@@ -10,6 +10,7 @@ const links = [
   { id: 'services', label: 'Услуги' },
   { id: 'works', label: 'Работы' },
   { id: 'brief', label: 'Заявка' },
+  { id: 'faq', label: 'Вопросы' },
   { id: 'smartcalc', label: 'SmartCalc' },
   { id: 'terminal', label: 'Терминал' },
   { id: 'contacts', label: 'Контакты' },
@@ -88,6 +89,14 @@ export function Header({ theme, onToggleTheme }: Props) {
             </a>
           ))}
         </nav>
+        <button
+          className="icon-btn palette-btn"
+          onClick={() => window.dispatchEvent(new Event('promptly:palette'))}
+          aria-label="Открыть палитру команд (Ctrl+K)"
+          title="Палитра команд (Ctrl+K)"
+        >
+          <Search size={18} aria-hidden="true" />
+        </button>
         <button className="icon-btn theme-btn" onClick={onToggleTheme} aria-label={`Включить ${next} тему`} title={`Включить ${next} тему`}>
           {theme === 'dark' ? <Sun size={18} aria-hidden="true" /> : <Moon size={18} aria-hidden="true" />}
         </button>

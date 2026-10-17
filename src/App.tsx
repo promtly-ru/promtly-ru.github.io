@@ -11,6 +11,9 @@ import { Terminal } from './components/Terminal'
 import { Contacts } from './components/Contacts'
 import { Footer } from './components/Footer'
 import { Toast } from './components/Toast'
+import { Faq } from './components/Faq'
+import { CommandPalette } from './components/CommandPalette'
+import { useKonami } from './hooks/useKonami'
 import { useTheme } from './hooks/useTheme'
 import { usePageEffects } from './hooks/usePageEffects'
 import { useFancy } from './hooks/useFancy'
@@ -20,10 +23,12 @@ export default function App() {
   const { theme, toggle } = useTheme()
   usePageEffects()
   useFancy()
+  useKonami()
 
   return (
     <>
       <div className="cursor-glow" aria-hidden="true" />
+      <CommandPalette theme={theme} onToggleTheme={toggle} />
       <Header theme={theme} onToggleTheme={toggle} />
       <main>
         <Hero />
@@ -31,6 +36,7 @@ export default function App() {
         <Marquee />
         <Works />
         <Brief />
+        <Faq />
         <SmartCalc theme={theme} />
         <Terminal onToggleTheme={toggle} />
         <Contacts />
