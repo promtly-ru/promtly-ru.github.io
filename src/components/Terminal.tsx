@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type FormEvent, type KeyboardEvent } from 'react'
-import { contacts, profile, services, smartcalc } from '../data/content'
+import { contacts, profile, services, smartcalc, works } from '../data/content'
 import { confetti } from '../lib/fx'
 import { Scramble } from './Scramble'
 
@@ -17,6 +17,7 @@ const HELP = [
   'help       — список команд',
   'about      — кто я',
   'services   — чем могу помочь',
+  'works      — примеры работ',
   'smartcalc  — мой калькулятор',
   'contacts   — как связаться',
   'hire       — оставить заявку',
@@ -26,7 +27,7 @@ const HELP = [
   'clear      — очистить экран',
 ].join('\n')
 
-const COMMANDS = ['help', 'about', 'services', 'smartcalc', 'contacts', 'hire', 'joke', 'theme', 'date', 'clear']
+const COMMANDS = ['help', 'about', 'services', 'works', 'smartcalc', 'contacts', 'hire', 'joke', 'theme', 'date', 'clear']
 const QUICK = ['help', 'services', 'hire', 'joke', 'theme']
 
 const scrollTo = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
@@ -65,6 +66,9 @@ export function Terminal({ onToggleTheme }: { onToggleTheme: () => void }) {
         return out(profile.about)
       case 'services':
         return out(services.map((s) => `• ${s.title}: ${s.text}`).join('\n'))
+      case 'works':
+        out(works.map((w) => `• ${w.title} (${w.type.toLowerCase()}): ${w.url}`).join('\n'))
+        return scrollTo('works')
       case 'smartcalc':
         return out(`${smartcalc.name} ${smartcalc.version} — ${smartcalc.text}\nСкачать: раздел SmartCalc выше`)
       case 'contacts':
@@ -89,7 +93,7 @@ export function Terminal({ onToggleTheme }: { onToggleTheme: () => void }) {
       case 'rm -rf':
         return out('Хорошая попытка 😏 Этот сайт под защитой.', 'err')
       case 'ls':
-        return out('services/  smartcalc/  contacts/  secret.txt')
+        return out('services/  works/  smartcalc/  contacts/  secret.txt')
       case 'cat secret.txt':
         return out('Секрет: хороший проект начинается с одного сообщения. Команда hire 😉')
       default:

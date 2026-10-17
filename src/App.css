@@ -517,6 +517,39 @@ article.card-spot:hover { translate: 0 -6px; box-shadow: var(--shadow); }
 }
 .term-quick button:hover { color: var(--t-accent); border-color: var(--t-accent); }
 
+/* ---------- Работы ---------- */
+.work { display: grid; grid-template-columns: 1.25fr 1fr; gap: 36px; align-items: center; padding: 20px; }
+.work + .work { margin-top: 24px; }
+.work-preview {
+  display: block; overflow: hidden; text-decoration: none;
+  border: 1px solid var(--border); border-radius: 12px; background: var(--bg); box-shadow: var(--shadow);
+  transition: transform 0.5s var(--ease), border-color 0.3s;
+}
+.work-preview:hover { transform: translateY(-4px); border-color: color-mix(in srgb, var(--accent) 45%, var(--border)); }
+.work-bar { display: flex; align-items: center; gap: 6px; height: 30px; padding: 0 12px; background: var(--bg-alt); border-bottom: 1px solid var(--border); color: var(--muted); font-size: 0.72rem; }
+.work-bar i { width: 9px; height: 9px; border-radius: 50%; flex: none; background: #ff5f57; }
+.work-bar i:nth-child(2) { background: #febc2e; }
+.work-bar i:nth-child(3) { background: #28c840; }
+.work-bar span { margin-left: 8px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.work-shots { position: relative; display: block; aspect-ratio: 16 / 10; }
+.work-shots img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: opacity 0.6s var(--ease), transform 1.2s var(--ease); }
+.work-shot-alt { opacity: 0; }
+.work-preview:hover .work-shot-alt, .work-preview:focus-visible .work-shot-alt { opacity: 1; }
+.work-preview:hover img { transform: scale(1.03); }
+/* На тач-экранах наведения нет — кадры сменяются сами */
+@media (hover: none) { .work-shot-alt { animation: work-swap 8s var(--ease) infinite; } }
+@keyframes work-swap { 0%, 40% { opacity: 0; } 50%, 90% { opacity: 1; } 100% { opacity: 0; } }
+.work-info h3 { font-size: 1.6rem; margin: 14px 0 10px; letter-spacing: -0.01em; }
+.work-info .checklist { margin: 18px 0; }
+.work-stack { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.work-stack li { padding: 4px 10px; border: 1px solid var(--border); border-radius: 999px; color: var(--muted); font: 0.78rem ui-monospace, 'Cascadia Code', Consolas, monospace; }
+.work .actions { margin-bottom: 0; }
+@media (max-width: 900px) { .work { grid-template-columns: 1fr; gap: 24px; } }
+@media (max-width: 520px) {
+  .work { padding: 14px; }
+  .work .actions .btn { flex: 1 1 100%; justify-content: center; }
+}
+
 /* ---------- Адаптив ---------- */
 @media (max-width: 900px) {
   .footer-grid { grid-template-columns: 1fr 1fr; }

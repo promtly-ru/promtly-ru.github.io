@@ -3,6 +3,7 @@ import { Header } from './components/Header'
 import { Hero } from './components/Hero'
 import { Services } from './components/Services'
 import { Marquee } from './components/Marquee'
+import { Works } from './components/Works'
 import { Brief } from './components/Brief'
 import { SmartCalc } from './components/SmartCalc'
 import { Terminal } from './components/Terminal'
@@ -27,6 +28,7 @@ export default function App() {
         <Hero />
         <Services />
         <Marquee />
+        <Works />
         <Brief />
         <SmartCalc theme={theme} />
         <Terminal onToggleTheme={toggle} />
