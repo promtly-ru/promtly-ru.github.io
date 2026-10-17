@@ -1,5 +1,5 @@
 import type { CSSProperties } from 'react'
-import { Check, ExternalLink, MessageSquare } from 'lucide-react'
+import { Check, Download, ExternalLink, MessageSquare } from 'lucide-react'
 import { works } from '../data/content'
 import { spotlight } from '../hooks/usePageEffects'
 import { Scramble } from './Scramble'
@@ -15,7 +15,7 @@ export function Works() {
 
         {works.map((w, i) => (
           <article className="card card-spot work" key={w.title} data-reveal style={delay(i)} onPointerMove={spotlight}>
-            <a className="work-preview" href={w.url} target="_blank" rel="noopener" aria-label={`Открыть сайт «${w.title}» в новой вкладке`}>
+            <a className="work-preview" href={w.url} target="_blank" rel="noopener" aria-label={`${w.cta} «${w.title}» в новой вкладке`}>
               <span className="work-bar" aria-hidden="true"><i /><i /><i /><span>{w.url.replace('https://', '')}</span></span>
               <span className="work-shots">
                 <img src={w.images[0]} alt={w.alt} width={1280} height={800} loading="lazy" />
@@ -37,12 +37,22 @@ export function Works() {
               </ul>
               <div className="actions">
                 <a className="btn btn-primary" href={w.url} target="_blank" rel="noopener">
-                  Открыть сайт <ExternalLink size={18} aria-hidden="true" />
+                  {w.cta} <ExternalLink size={18} aria-hidden="true" />
                 </a>
                 <a className="btn btn-ghost" href="#brief">
                   <MessageSquare size={18} aria-hidden="true" /> Хочу похожий
                 </a>
               </div>
+              {w.downloads && (
+                <div className="work-downloads">
+                  <span className="muted">Скачать:</span>
+                  {w.downloads.map((d) => (
+                    <a key={d.label} className="work-dl" href={d.url} download>
+                      <Download size={16} aria-hidden="true" /> {d.label} <small>{d.hint}</small>
+                    </a>
+                  ))}
+                </div>
+              )}
             </div>
           </article>
         ))}

@@ -120,11 +120,8 @@ export function Brief() {
             </div>
 
             <div className="brief-send">
-              <a className="btn btn-primary btn-shine magnetic" href={whatsapp} target="_blank" rel="noreferrer" onClick={sent}>
-                <MessageCircle size={18} aria-hidden="true" /> WhatsApp
-              </a>
               <a
-                className="btn btn-ghost magnetic"
+                className="btn btn-primary btn-shine btn-tg-main magnetic"
                 href={telegram}
                 target="_blank"
                 rel="noreferrer"
@@ -134,7 +131,10 @@ export function Brief() {
                   sent()
                 }}
               >
-                <Send size={18} aria-hidden="true" /> Telegram
+                <Send size={20} aria-hidden="true" /> Отправить в Telegram
+              </a>
+              <a className="btn btn-ghost magnetic" href={whatsapp} target="_blank" rel="noreferrer" onClick={sent}>
+                <MessageCircle size={18} aria-hidden="true" /> WhatsApp
               </a>
               <a className="btn btn-ghost magnetic" href={email} onClick={sent}>
                 <Mail size={18} aria-hidden="true" /> Почта

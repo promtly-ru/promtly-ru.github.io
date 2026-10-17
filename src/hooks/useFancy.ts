@@ -80,6 +80,22 @@ export function useFancy() {
     window.addEventListener('keydown', onKey)
     cleanups.push(() => window.removeEventListener('keydown', onKey))
 
+    // Ушли на другую вкладку — заголовок зовёт обратно
+    let savedTitle = document.title
+    const onVisibility = () => {
+      if (document.hidden) {
+        savedTitle = document.title
+        document.title = '👋 Возвращайтесь, тут интересно'
+      } else {
+        document.title = savedTitle
+      }
+    }
+    document.addEventListener('visibilitychange', onVisibility)
+    cleanups.push(() => {
+      document.removeEventListener('visibilitychange', onVisibility)
+      document.title = savedTitle
+    })
+
     // Привет тем, кто открыл консоль
     console.log(
       '%cPromptly%c\nЗаглянули в код? Значит, вы свой человек.\nНужен сайт, бот или скрипт — пишите: https://t.me/nothing8931',

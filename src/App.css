@@ -343,6 +343,57 @@ article.card-spot:hover { translate: 0 -6px; box-shadow: var(--shadow); }
 .contact strong { display: block; }
 .contact-value { color: var(--muted); font-size: 0.95rem; overflow-wrap: anywhere; }
 .card > .copy-btn { position: absolute; top: 10px; right: 10px; width: 32px; height: 32px; }
+/* Telegram — главный канал: карточка на всю ширину и крупнее, под ней WhatsApp и почта пополам */
+#contacts .grid { grid-template-columns: 1fr 1fr; }
+@media (max-width: 640px) { #contacts .grid { grid-template-columns: 1fr; } }
+.contact-main { grid-column: 1 / -1; border-color: color-mix(in srgb, #2aabee 45%, var(--border)); }
+.contact-main .contact-link { padding: 30px 28px; }
+.contact-main .card-icon { width: 56px; height: 56px; background: #2aabee; color: #fff; }
+.contact-main strong { font-size: 1.25rem; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.contact-main .contact-value { font-size: 1.05rem; }
+.contact-tag { padding: 2px 10px; border-radius: 999px; background: rgba(42, 171, 238, 0.15); color: #2aabee; font-size: 0.75rem; font-weight: 700; }
+.msk-clock { display: flex; align-items: center; gap: 10px; margin: -4px 0 24px; color: var(--muted); font-size: 0.95rem; }
+.msk-clock b { color: var(--fg); font-variant-numeric: tabular-nums; }
+.msk-clock i { width: 10px; height: 10px; border-radius: 50%; flex: none; }
+.msk-clock i.is-day { background: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); }
+.msk-clock i.is-night { background: #f59e0b; box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.15); }
+
+/* Заявка: Telegram — первая и самая крупная кнопка */
+.brief-send .btn.btn-tg-main { flex: 1 1 100%; padding: 15px 20px; font-size: 1.05rem; }
+
+/* Работы: скачивание файлов */
+.work-downloads { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin-top: 4px; font-size: 0.9rem; }
+.work-dl { display: inline-flex; align-items: center; gap: 6px; color: var(--fg); font-weight: 600; text-decoration: none; border-bottom: 1px dashed var(--border); transition: color 0.2s, border-color 0.2s; }
+.work-dl small { color: var(--muted); font-weight: 400; }
+.work-dl:hover { color: var(--accent); border-color: var(--accent); }
+
+/* Плавающая кнопка Telegram */
+.tg-fab {
+  position: fixed; left: 20px; bottom: 20px; z-index: 25;
+  display: grid; place-items: center; width: 56px; height: 56px; border-radius: 50%;
+  background: #2aabee; color: #fff; box-shadow: 0 12px 30px -8px rgba(42, 171, 238, 0.7);
+  opacity: 0; transform: translateY(16px) scale(0.9); pointer-events: none; visibility: hidden;
+  transition: opacity 0.3s, transform 0.3s var(--ease), visibility 0s linear 0.3s;
+}
+/* visibility убирает скрытую кнопку из порядка Tab */
+.is-scrolled .tg-fab { opacity: 1; transform: none; pointer-events: auto; visibility: visible; transition: opacity 0.3s, transform 0.3s var(--ease); }
+.tg-fab:hover { transform: translateY(-3px) scale(1.05); }
+.tg-fab svg { transform: translateX(-1px); }
+.tg-fab::before, .tg-fab::after {
+  content: ''; position: absolute; inset: 0; border-radius: 50%; border: 2px solid #2aabee; opacity: 0; pointer-events: none;
+}
+.tg-fab-tip {
+  position: absolute; left: calc(100% + 12px); white-space: nowrap;
+  padding: 8px 12px; border-radius: 10px; background: var(--fg); color: var(--bg); font-size: 0.85rem; font-weight: 600;
+  opacity: 0; transform: translateX(-6px); pointer-events: none; transition: opacity 0.2s, transform 0.2s var(--ease);
+}
+.tg-fab:hover .tg-fab-tip, .tg-fab:focus-visible .tg-fab-tip { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: no-preference) {
+  .tg-fab::before { animation: tg-ring 2.4s ease-out infinite; }
+  .tg-fab::after { animation: tg-ring 2.4s ease-out 1.2s infinite; }
+}
+@keyframes tg-ring { 0% { opacity: 0.6; transform: scale(1); } 100% { opacity: 0; transform: scale(1.7); } }
+@media (max-width: 520px) { .tg-fab { left: 16px; bottom: 16px; width: 52px; height: 52px; } }
 .toast {
   position: fixed; left: 50%; bottom: 24px; z-index: 30;
   display: flex; align-items: center; gap: 8px;

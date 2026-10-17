@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type FormEvent, type KeyboardEvent } from 'react'
-import { contacts, profile, services, smartcalc, works } from '../data/content'
+import { contacts, presentationUrl, profile, services, smartcalc, works } from '../data/content'
 import { confetti } from '../lib/fx'
 import { Scramble } from './Scramble'
 
@@ -19,6 +19,7 @@ const HELP = [
   'services   — чем могу помочь',
   'works      — примеры работ',
   'smartcalc  — мой калькулятор',
+  'deck       — открыть презентацию',
   'contacts   — как связаться',
   'hire       — оставить заявку',
   'joke       — шутка для разработчиков',
@@ -27,7 +28,7 @@ const HELP = [
   'clear      — очистить экран',
 ].join('\n')
 
-const COMMANDS = ['help', 'about', 'services', 'works', 'smartcalc', 'contacts', 'hire', 'joke', 'theme', 'date', 'clear']
+const COMMANDS = ['help', 'about', 'services', 'works', 'smartcalc', 'deck', 'contacts', 'hire', 'joke', 'theme', 'date', 'clear']
 const QUICK = ['help', 'services', 'hire', 'joke', 'theme']
 
 const scrollTo = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
@@ -71,6 +72,9 @@ export function Terminal({ onToggleTheme }: { onToggleTheme: () => void }) {
         return scrollTo('works')
       case 'smartcalc':
         return out(`${smartcalc.name} ${smartcalc.version} — ${smartcalc.text}\nСкачать: раздел SmartCalc выше`)
+      case 'deck':
+        window.open(presentationUrl, '_blank', 'noopener')
+        return out(`Открываю презентацию «AI-автоматизация для бизнеса» 🎞️\n${presentationUrl}`)
       case 'contacts':
         return out([contacts.telegram, contacts.whatsapp, contacts.email].map((c) => `${c.label.padEnd(9)} ${c.value}`).join('\n'))
       case 'hire':

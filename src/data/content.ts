@@ -3,9 +3,9 @@
 export const profile = {
   name: 'Promptly',
   // Заголовок первого экрана: «Делаю <слово> под ваши задачи», слова сменяются по очереди
-  headlineWords: ['сайты', 'Telegram-боты', 'программы', 'автоматизацию'],
+  headlineWords: ['сайты', 'Telegram-боты', 'презентации', 'программы', 'автоматизацию'],
   about:
-    'Разрабатываю сайты, Telegram-боты, скрипты автоматизации и десктоп-приложения для Windows. Обсуждаем задачу, договариваемся о цене и сроках — и я делаю под ключ.',
+    'Разрабатываю сайты, Telegram-боты, скрипты автоматизации, продающие презентации и десктоп-приложения для Windows. Обсуждаем задачу, договариваемся о цене и сроках — и я делаю под ключ.',
   footer: 'Разработка сайтов, ботов и приложений под ключ.',
 }
 
@@ -46,8 +46,45 @@ export const services: { icon: ServiceIcon; title: string; text: string; items: 
 
 export const priceNote = 'Стоимость зависит от задачи и обсуждается лично.'
 
+export type Work = {
+  title: string
+  type: string
+  text: string
+  features: string[]
+  stack: string[]
+  url: string
+  cta: string
+  downloads?: { label: string; hint: string; url: string }[]
+  images: string[]
+  alt: string
+}
+
+const DECK = 'https://promtly-ru.github.io/ai-presentation/'
+export const presentationUrl = DECK
+
 // Примеры работ: открываются вживую по ссылке
-export const works = [
+export const works: Work[] = [
+  {
+    title: 'AI-автоматизация для бизнеса',
+    type: 'Презентация',
+    text: 'Продающая презентация для владельцев малого бизнеса о том, как AI снимает рутину. Открывается по ссылке, а для отправки и печати скачивается в PDF и PowerPoint.',
+    features: [
+      'Живой фон и плавные переходы между слайдами',
+      'Калькулятор: клиент сам считает, сколько стоит его рутина',
+      'Анимированный чат «клиент пишет в 3 часа ночи»',
+      'Диаграмма оживает при наведении',
+      'Листается стрелками, свайпом и колесом мыши',
+    ],
+    stack: ['HTML', 'CSS', 'JavaScript', 'PDF', 'PowerPoint'],
+    url: DECK,
+    cta: 'Открыть презентацию',
+    downloads: [
+      { label: 'PDF', hint: '7 слайдов', url: `${DECK}downloads/promptly-ai-presentation.pdf` },
+      { label: 'PowerPoint', hint: '.pptx', url: `${DECK}downloads/promptly-ai-presentation.pptx` },
+    ],
+    images: ['/img/works/ai-deck-cover.jpg', '/img/works/ai-deck-calc.jpg'],
+    alt: 'Обложка презентации: «Ваш бизнес может работать, пока вы спите» на тёмном фоне с пятнами света',
+  },
   {
     title: 'Почему мурчат котики?',
     type: 'Лонгрид-лендинг',
@@ -61,6 +98,7 @@ export const works = [
     ],
     stack: ['HTML', 'CSS', 'JavaScript', 'Web Audio API'],
     url: 'https://promtly-ru.github.io/murchat-site/',
+    cta: 'Открыть сайт',
     images: ['/img/works/murchat-cover.jpg', '/img/works/murchat-pet.jpg'],
     alt: 'Главный экран сайта «Почему мурчат котики?»: спящий рыжий кот и крупный заголовок',
   },
@@ -72,6 +110,7 @@ export const marquee = [
   'Сайты-визитки',
   'Интернет-магазины',
   'Telegram-боты',
+  'Продающие презентации',
   'Python-скрипты',
   'Парсинг',
   'Обработка данных',
@@ -82,7 +121,7 @@ export const marquee = [
 
 // Конструктор заявки: из выбранного собирается готовое сообщение
 export const brief = {
-  types: ['Сайт', 'Telegram-бот', 'Автоматизация', 'Приложение для Windows', 'Другое'],
+  types: ['Сайт', 'Telegram-бот', 'Презентация', 'Автоматизация', 'Приложение для Windows', 'Другое'],
   extras: ['Дизайн с нуля', 'Приём оплаты', 'Интеграция с сервисами', 'Админ-панель', 'Деплой и домен', 'Поддержка после запуска'],
   deadlines: ['Не горит', 'В течение месяца', 'Срочно'],
 }

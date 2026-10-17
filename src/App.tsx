@@ -1,4 +1,5 @@
-import { ArrowUp } from 'lucide-react'
+import { ArrowUp, Send } from 'lucide-react'
+import { contacts } from './data/content'
 import { Header } from './components/Header'
 import { Hero } from './components/Hero'
 import { Services } from './components/Services'
@@ -36,6 +37,10 @@ export default function App() {
       </main>
       <Footer />
       <Toast />
+      <a className="tg-fab" href={contacts.telegram.url} target="_blank" rel="noreferrer" aria-label="Написать в Telegram">
+        <Send size={24} aria-hidden="true" />
+        <span className="tg-fab-tip" aria-hidden="true">Написать в Telegram</span>
+      </a>
       <a className="to-top" href="#top" aria-label="Наверх">
         <ArrowUp size={20} aria-hidden="true" />
       </a>
