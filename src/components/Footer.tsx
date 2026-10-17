@@ -1,4 +1,5 @@
-import { ArrowUp, Download } from 'lucide-react'
+import { ArrowUp, Download, Share2 } from 'lucide-react'
+import { shareSite } from '../lib/fx'
 import { contacts, profile, smartcalc } from '../data/content'
 
 const year = new Date().getFullYear()
@@ -21,6 +22,7 @@ export function Footer() {
           <a href="#services">Услуги</a>
           <a href="#services">Как работаю</a>
           <a href="#brief">Собрать заявку</a>
+          <a href="#faq">Вопросы</a>
           <a href="#smartcalc">SmartCalc</a>
           <a href="#terminal">Терминал</a>
           <a href="#contacts">Контакты</a>
@@ -45,6 +47,9 @@ export function Footer() {
 
       <div className="container footer-bottom">
         <span>© {year} {profile.name}. Все права защищены.</span>
+        <button type="button" className="footer-top footer-share" onClick={shareSite}>
+          <Share2 size={14} aria-hidden="true" /> Поделиться сайтом
+        </button>
         <a href="#top" className="footer-top">
           Наверх <ArrowUp size={14} aria-hidden="true" />
         </a>

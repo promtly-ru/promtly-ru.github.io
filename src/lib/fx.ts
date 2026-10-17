@@ -5,6 +5,18 @@ export function toast(text: string) {
   window.dispatchEvent(new CustomEvent('promptly:toast', { detail: text }))
 }
 
+// Поделиться сайтом: системное окно «Поделиться», а если его нет — копируем ссылку
+export async function shareSite() {
+  const data = { title: document.title, url: location.origin + '/' }
+  try {
+    if (navigator.share) return await navigator.share(data)
+    await navigator.clipboard.writeText(data.url)
+    toast('Ссылка скопирована')
+  } catch {
+    // пользователь закрыл окно «Поделиться» — ничего не делаем
+  }
+}
+
 // Конфетти на canvas поверх страницы, само удаляется через ~3 секунды
 export function confetti() {
   if (prefersReducedMotion()) return

@@ -3,6 +3,7 @@ import { Check, Download, ExternalLink, MessageSquare } from 'lucide-react'
 import { works } from '../data/content'
 import { spotlight } from '../hooks/usePageEffects'
 import { Scramble } from './Scramble'
+import { GithubPulse } from './GithubPulse'
 
 const delay = (i: number) => ({ '--d': `${i * 100}ms` }) as CSSProperties
 
@@ -56,6 +57,7 @@ export function Works() {
             </div>
           </article>
         ))}
+        <GithubPulse />
       </div>
     </section>
   )

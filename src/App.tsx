@@ -14,6 +14,7 @@ import { Toast } from './components/Toast'
 import { Faq } from './components/Faq'
 import { CommandPalette } from './components/CommandPalette'
 import { useKonami } from './hooks/useKonami'
+import { useOnlineToast } from './hooks/useOnlineToast'
 import { useTheme } from './hooks/useTheme'
 import { usePageEffects } from './hooks/usePageEffects'
 import { useFancy } from './hooks/useFancy'
@@ -24,6 +25,7 @@ export default function App() {
   usePageEffects()
   useFancy()
   useKonami()
+  useOnlineToast()
 
   return (
     <>

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type FormEvent, type KeyboardEvent } from 'react'
 import { contacts, presentationUrl, profile, services, smartcalc, works } from '../data/content'
-import { confetti } from '../lib/fx'
+import { confetti, shareSite } from '../lib/fx'
 import { Scramble } from './Scramble'
 
 type Line = { kind: 'in' | 'out' | 'err'; text: string }
@@ -22,13 +22,17 @@ const HELP = [
   'deck       — открыть презентацию',
   'contacts   — как связаться',
   'hire       — оставить заявку',
+  'faq        — частые вопросы',
+  'palette    — палитра команд (Ctrl+K)',
+  'share      — поделиться сайтом',
+  'uptime     — сколько вы уже на сайте',
   'joke       — шутка для разработчиков',
   'theme      — сменить тему',
   'date       — текущие дата и время',
   'clear      — очистить экран',
 ].join('\n')
 
-const COMMANDS = ['help', 'about', 'services', 'works', 'smartcalc', 'deck', 'contacts', 'hire', 'joke', 'theme', 'date', 'clear']
+const COMMANDS = ['help', 'about', 'services', 'works', 'smartcalc', 'deck', 'contacts', 'hire', 'faq', 'palette', 'share', 'uptime', 'joke', 'theme', 'date', 'clear']
 const QUICK = ['help', 'services', 'hire', 'joke', 'theme']
 
 const scrollTo = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
@@ -80,6 +84,17 @@ export function Terminal({ onToggleTheme }: { onToggleTheme: () => void }) {
       case 'hire':
         out('Открываю конструктор заявки… 🚀')
         return scrollTo('brief')
+      case 'faq':
+        out('Открываю частые вопросы…')
+        return scrollTo('faq')
+      case 'palette':
+        out('Открываю палитру команд ⌨️')
+        return void window.dispatchEvent(new Event('promptly:palette'))
+      case 'share':
+        out('Делюсь ссылкой…')
+        return void shareSite()
+      case 'uptime':
+        return out(`Вы на сайте уже ${Math.round(performance.now() / 1000)} с`)
       case 'joke':
         out(JOKES[joke.current % JOKES.length])
         joke.current += 1

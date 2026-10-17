@@ -3,6 +3,7 @@ import { Menu, Moon, Search, Sun, X } from 'lucide-react'
 import { profile } from '../data/content'
 import type { Theme } from '../hooks/useTheme'
 import { confetti, toast } from '../lib/fx'
+import { InstallButton } from './InstallButton'
 
 type Props = { theme: Theme; onToggleTheme: () => void }
 
@@ -89,6 +90,7 @@ export function Header({ theme, onToggleTheme }: Props) {
             </a>
           ))}
         </nav>
+        <InstallButton />
         <button
           className="icon-btn palette-btn"
           onClick={() => window.dispatchEvent(new Event('promptly:palette'))}

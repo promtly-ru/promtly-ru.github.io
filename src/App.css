@@ -682,3 +682,11 @@ article.card-spot:hover { translate: 0 -6px; box-shadow: var(--shadow); }
 .palette-empty { color: var(--muted); cursor: default !important; }
 .palette-foot { display: flex; align-items: center; gap: 4px; margin: 0; padding: 10px 16px; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.78rem; }
 @media (max-width: 800px) { .palette-btn { display: none; } }
+
+/* GitHub-пульс, «Поделиться», кнопка установки */
+.gh-pulse { display: inline-flex; align-items: center; gap: 10px; margin-top: 28px; padding: 10px 16px; border: 1px solid var(--border); border-radius: 999px; background: var(--card); color: var(--muted); text-decoration: none; font-size: 0.9rem; transition: border-color 0.2s, color 0.2s; }
+.gh-pulse:hover { border-color: var(--accent); color: var(--fg); }
+.gh-pulse b { color: var(--accent); }
+.footer-share { background: none; border: 0; padding: 0; font: inherit; cursor: pointer; color: inherit; display: inline-flex; align-items: center; gap: 6px; }
+.footer-bottom { flex-wrap: wrap; gap: 8px 24px; }
+@media (max-width: 800px) { .install-btn { display: none; } }
