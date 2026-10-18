@@ -1,6 +1,7 @@
 import type { CSSProperties } from 'react'
 import { Check, Download, ExternalLink, MessageSquare } from 'lucide-react'
 import { works } from '../data/content'
+import { PlatformDownload } from './PlatformDownload'
 import { spotlight } from '../hooks/usePageEffects'
 import { Scramble } from './Scramble'
 import { GithubPulse } from './GithubPulse'
@@ -44,6 +45,7 @@ export function Works() {
                   <MessageSquare size={18} aria-hidden="true" /> Хочу похожий
                 </a>
               </div>
+              {w.platforms && <PlatformDownload work={w} />}
               {w.downloads && (
                 <div className="work-downloads">
                   <span className="muted">Скачать:</span>

@@ -70,6 +70,14 @@ export const faq: { q: string; a: string }[] = [
   },
 ]
 
+export type WorkPlatform = {
+  id: string
+  label: string
+  requirements: string
+  downloads: { label: string; hint: string; url: string; web?: boolean }[]
+  note: string
+}
+
 export type Work = {
   title: string
   type: string
@@ -79,10 +87,14 @@ export type Work = {
   url: string
   cta: string
   downloads?: { label: string; hint: string; url: string }[]
+  platforms?: WorkPlatform[]
+  version?: string
+  releasesUrl?: string
   images: string[]
   alt: string
 }
 
+const CYBERHACK_DL = 'https://github.com/promtly-ru/cyberhack/releases/download/v0.2.0/'
 const DECK = 'https://promtly-ru.github.io/ai-presentation/'
 export const presentationUrl = DECK
 
@@ -102,8 +114,58 @@ export const works: Work[] = [
     stack: ['TypeScript', 'React', 'Pixi.js', 'PWA', 'Tauri', 'Capacitor', 'Playwright'],
     url: 'https://promtly-ru.github.io/cyberhack/',
     cta: 'Играть',
-    downloads: [
-      { label: 'Установщики', hint: 'Windows, macOS, Linux, Android', url: 'https://github.com/promtly-ru/cyberhack/releases/latest' },
+    version: '0.2.0',
+    releasesUrl: 'https://github.com/promtly-ru/cyberhack/releases/latest',
+    platforms: [
+      {
+        id: 'windows',
+        label: 'Windows',
+        requirements: 'Windows 10/11, 64-bit',
+        downloads: [
+          { label: 'Скачать для Windows', hint: 'установщик .exe', url: `${CYBERHACK_DL}CyberHack_0.2.0_x64-setup.exe` },
+          { label: 'Установщик .msi', hint: 'для администраторов', url: `${CYBERHACK_DL}CyberHack_0.2.0_x64_en-US.msi` },
+        ],
+        note: 'Приложение не подписано платным сертификатом, поэтому SmartScreen может предупредить: нажмите «Подробнее» → «Выполнить в любом случае».',
+      },
+      {
+        id: 'mac',
+        label: 'macOS',
+        requirements: 'Mac на Apple Silicon (M1 и новее)',
+        downloads: [{ label: 'Скачать для Mac', hint: 'образ .dmg', url: `${CYBERHACK_DL}CyberHack_0.2.0_aarch64.dmg` }],
+        note: 'Правый клик по приложению → «Открыть». Если macOS пишет «повреждено», выполните в Терминале: xattr -cr /Applications/CyberHack.app',
+      },
+      {
+        id: 'linux',
+        label: 'Linux',
+        requirements: 'Любой 64-bit дистрибутив',
+        downloads: [
+          { label: 'Скачать AppImage', hint: 'запускается везде', url: `${CYBERHACK_DL}CyberHack_0.2.0_amd64.AppImage` },
+          { label: 'Пакет .deb', hint: 'Debian, Ubuntu', url: `${CYBERHACK_DL}CyberHack_0.2.0_amd64.deb` },
+          { label: 'Пакет .rpm', hint: 'Fedora, openSUSE', url: `${CYBERHACK_DL}CyberHack-0.2.0-1.x86_64.rpm` },
+        ],
+        note: 'Для AppImage сделайте файл исполняемым: chmod +x CyberHack_*.AppImage',
+      },
+      {
+        id: 'android',
+        label: 'Android',
+        requirements: 'Android 7 и новее',
+        downloads: [{ label: 'Скачать для Android', hint: 'файл .apk', url: `${CYBERHACK_DL}CyberHack-v0.2.0-android-debug.apk` }],
+        note: 'Разрешите установку из неизвестных источников. Файл подписан тестовым ключом, поэтому новую версию иногда придётся ставить поверх удалённой старой.',
+      },
+      {
+        id: 'ios',
+        label: 'iPhone / iPad',
+        requirements: 'Safari, iOS 15 и новее',
+        downloads: [{ label: 'Открыть игру', hint: 'работает в браузере', url: 'https://promtly-ru.github.io/cyberhack/', web: true }],
+        note: 'Нативной сборки для iOS нет. Откройте игру в Safari → «Поделиться» → «На экран „Домой“»: она будет работать как приложение и без интернета.',
+      },
+      {
+        id: 'web',
+        label: 'Браузер',
+        requirements: 'Любой современный браузер',
+        downloads: [{ label: 'Играть в браузере', hint: 'ничего ставить не нужно', url: 'https://promtly-ru.github.io/cyberhack/', web: true }],
+        note: 'В Chrome и Edge в адресной строке появится значок установки: игра встанет как приложение и будет работать офлайн.',
+      },
     ],
     images: ['/img/works/cyberhack-cover.jpg', '/img/works/cyberhack-map.jpg'],
     alt: 'Бой в игре CyberHack: неоновый хакер против бота-файрвола, внизу рука из карт-программ',

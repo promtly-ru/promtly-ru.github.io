@@ -10,15 +10,13 @@ permissions:
 
 env:
   SITE_URL: https://promtly-ru.github.io/
-  TG_API: https://api.telegram.org/bot${{ secrets.TG_TOKEN }}
-  TG_CHAT: ${{ secrets.TG_CHAT_ID }}
-  TG_CHANNEL: ${{ secrets.TG_CHANNEL_ID }}
 
 jobs:
   check:
     runs-on: ubuntu-latest
     timeout-minutes: 3
     steps:
+      - uses: actions/checkout@v4
       - name: Check site
         id: check
         run: |
@@ -35,67 +33,15 @@ jobs:
           echo "code=$code" >> "$GITHUB_OUTPUT"
           echo "ms=$ms" >> "$GITHUB_OUTPUT"
 
-      - name: Alert on failure
-        if: steps.check.outputs.ok != '1'
+      - name: Alerts and commands
+        if: always()
         env:
-          CODE: ${{ steps.check.outputs.code }}
-        run: |
-          now=$(date -u '+%d.%m.%Y %H:%M UTC')
-          text="🔴 <b>Сайт не отвечает</b>
-
-          🌐 $SITE_URL
-          ⚠️ Код ответа: <code>$CODE</code>
-          🕒 $now
-          🔁 Проверено 3 раза подряд"
-          for chat in "$TG_CHAT" "$TG_CHANNEL"; do
-            [ -n "$chat" ] && curl -s -m 20 -o /dev/null "$TG_API/sendMessage"               --data-urlencode "chat_id=$chat" --data-urlencode "parse_mode=HTML"               --data-urlencode "text=$text"
-          done
-          exit 0
-
-      - name: Answer commands
-        env:
-          OK: ${{ steps.check.outputs.ok }}
-          CODE: ${{ steps.check.outputs.code }}
-          MS: ${{ steps.check.outputs.ms }}
-        run: |
-          now_ts=$(date +%s)
-          updates=$(curl -s -m 20 "$TG_API/getUpdates?timeout=0&allowed_updates=%5B%22message%22%5D")
-          # подтверждаем обработанные сообщения, чтобы не отвечать дважды
-          last=$(echo "$updates" | jq -r '[.result[]?.update_id] | max // empty')
-          if [ -n "$last" ]; then
-            curl -s -m 20 -o /dev/null "$TG_API/getUpdates?offset=$((last+1))&timeout=0"
-          fi
-          if [ "$OK" = "1" ]; then
-            status="🟢 <b>Сайт работает</b>
-
-          🌐 $SITE_URL
-          ⚡ Ответ: <code>$MS мс</code>
-          📡 Код: <code>200</code>"
-          else
-            status="🔴 <b>Сайт недоступен</b>
-
-          🌐 $SITE_URL
-          ⚠️ Код: <code>$CODE</code>"
-          fi
-          help="👋 <b>Promptly Monitor</b>
-
-          Слежу за сайтом каждые 5 минут и пишу, если он упал или обновился.
-
-          /status - работает ли сайт сейчас
-          /help - эта справка
-
-          ⏱ Ответы приходят с задержкой до 5 минут."
-          # команды от любых пользователей (личка и группы), не старше 6 минут
-          echo "$updates" | jq -r --argjson now "$now_ts"             '.result[]?.message | select(($now - .date) < 360 and .text != null)
-             | "\(.chat.id) \(.text | split(" ")[0] | split("@")[0] | ascii_downcase)"' |
-          while read -r chat cmd; do
-            case "$cmd" in
-              /status) text="$status" ;;
-              /help|/start) text="$help" ;;
-              *) continue ;;
-            esac
-            curl -s -m 20 -o /dev/null "$TG_API/sendMessage" --data-urlencode "chat_id=$chat"               --data-urlencode "parse_mode=HTML" --data-urlencode "text=$text"
-          done
+          TG_TOKEN: ${{ secrets.TG_TOKEN }}
+                          GC_TOKEN: ${{ secrets.GOATCOUNTER_TOKEN }}
+          SITE_OK: ${{ steps.check.outputs.ok }}
+          SITE_CODE: ${{ steps.check.outputs.code }}
+          SITE_MS: ${{ steps.check.outputs.ms }}
+        run: python3 bot/monitor.py
 
       - name: Fail job when site is down
         if: steps.check.outputs.ok != '1'
