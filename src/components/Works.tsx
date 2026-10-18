@@ -29,8 +29,9 @@ export function Works() {
         </div>
 
         {shown.map((w, i) => (
-          <article className={`card card-spot work work-enter${w.gallery ? ' work-tall' : ''}`} id={w.id} key={w.title} style={delay(i)} onPointerMove={spotlight}>
+          <article className={`card card-spot work work-enter`} id={w.id} key={w.title} style={delay(i)} onPointerMove={spotlight}>
             <div className="work-media">
+            {!w.demo && (
             <a className="work-preview" href={w.url} target="_blank" rel="noopener" aria-label={`${w.cta} «${w.title}» в новой вкладке`}>
               <span className="work-bar" aria-hidden="true"><i /><i /><i /><span>{w.url.replace('https://', '')}</span></span>
               <span className="work-shots">
@@ -38,17 +39,8 @@ export function Works() {
                 {w.images[1] && <img className="work-shot-alt" src={w.images[1]} alt="" width={1280} height={800} loading="lazy" />}
               </span>
             </a>
-            {w.demo && <img className="work-demo" src={w.demo.src} alt={w.demo.alt} width={560} height={350} loading="lazy" />}
-            {w.gallery && (
-              <ul className="work-gallery">
-                {w.gallery.map((g) => (
-                  <li key={g.src}>
-                    <img src={g.src} alt={g.alt} width={640} height={400} loading="lazy" />
-                    <span>{g.caption}</span>
-                  </li>
-                ))}
-              </ul>
             )}
+            {w.demo && <img className="work-demo" src={w.demo.src} alt={w.demo.alt} width={560} height={350} loading="lazy" />}
             {w.platforms && <PlatformDownload work={w} />}
             {w.downloads && (
               <div className="work-downloads">

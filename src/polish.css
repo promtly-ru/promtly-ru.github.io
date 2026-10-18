@@ -116,8 +116,4 @@ main { counter-reset: sec; }
   body::before { transition: none; }
 }
 .work { scroll-margin-top: 90px; }
-/* Карточки с длинной левой колонкой: текст справа едет вместе с прокруткой */
-.work-tall .work-media { position: static; }
-.work-tall .work-info { align-self: start; position: sticky; top: 96px; }
-@media (max-width: 900px) { .work-tall .work-info { position: static; } }
 .work { overflow: clip; }

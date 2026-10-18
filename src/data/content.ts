@@ -140,11 +140,6 @@ export const works: Work[] = [
     url: 'https://promtly-ru.github.io/cyberhack/',
     cta: 'Играть',
     demo: { src: '/img/works/cyberhack-demo.gif', alt: 'Геймплей CyberHack: меню, выбор класса, карта акта и бой с картами' },
-    gallery: [
-      { src: '/img/works/cyberhack-map.jpg', alt: 'Карта первого акта с узлами и легендой', caption: 'Карта' },
-      { src: '/img/works/cyberhack-class.jpg', alt: 'Выбор класса и сложности', caption: 'Классы' },
-      { src: '/img/works/cyberhack-tutorial.jpg', alt: 'Обучение: подсказка над картой «Пинг»', caption: 'Обучение' },
-    ],
     version: '0.2.0',
     releasesUrl: 'https://github.com/promtly-ru/cyberhack/releases/latest',
     platforms: [
