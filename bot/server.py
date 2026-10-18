@@ -6,6 +6,7 @@ import urllib.request
 from datetime import datetime, timezone
 
 import monitor
+import ui
 from tg import CHANNEL, OWNER, call, send
 
 SITE = monitor.SITE
@@ -57,7 +58,10 @@ def status_text():
 
 
 def handle(u):
-    ev = u.get("my_chat_member") or u.get("channel_post")
+    if "callback_query" in u:
+        callback(u["callback_query"])
+        return
+    ev =u.get("my_chat_member") or u.get("channel_post")
     if ev:
         c = ev["chat"]
         if str(c["id"]) not in (OWNER, CHANNEL) and OWNER:
@@ -66,14 +70,52 @@ def handle(u):
     m = u.get("message")
     if not m or "text" not in m:
         return
+    chat = m["chat"]["id"]
     cmd = m["text"].split()[0].split("@")[0].lower()
-    if cmd == "/status":
+    if cmd in ("/start", "/help", "/menu"):
+        home(chat)
+    elif cmd in ("/status", "/stats", "/services", "/works", "/faq"):
+        send(chat, body(cmd[1:]), reply_markup=ui.BACK_KB)
+    elif cmd == "/order":
+        send(chat, "💬 Опишите задачу в паре предложений, отвечу в течение 24 часов.", reply_markup=ui.BACK_KB)
+    elif m["chat"]["type"] == "private":
+        home(chat)
+
+
+def body(name):
+    if name == "status":
         refresh(notify=False)
-        send(m["chat"]["id"], status_text())
-    elif cmd == "/stats":
-        send(m["chat"]["id"], monitor.stats_text())
-    elif cmd in ("/help", "/start"):
-        send(m["chat"]["id"], monitor.HELP)
+        return status_text()
+    if name == "stats":
+        return monitor.stats_text()
+    return {"services": ui.SERVICES, "works": ui.WORKS, "faq": ui.FAQ}[name]
+
+
+photo_id = None
+
+
+def home(chat):
+    global photo_id
+    args = dict(chat_id=chat, caption=ui.HOME_TEXT, parse_mode="HTML", reply_markup=ui.HOME_KB)
+    r = call("sendPhoto", photo=photo_id, **args) if photo_id else call("sendPhoto", files={"photo": ui.BANNER}, **args)
+    if r.get("ok") and not photo_id:
+        photo_id = r["result"]["photo"][-1]["file_id"]
+    elif not r.get("ok"):
+        send(chat, ui.HOME_TEXT, reply_markup=ui.HOME_KB)
+
+
+def callback(cb):
+    msg, data = cb["message"], cb["data"]
+    call("answerCallbackQuery", callback_query_id=cb["id"])
+    if data == "home":
+        home(msg["chat"]["id"])
+        return
+    text = body(data)
+    args = dict(chat_id=msg["chat"]["id"], message_id=msg["message_id"], parse_mode="HTML", reply_markup=ui.BACK_KB)
+    if "photo" in msg:
+        call("editMessageCaption", caption=text, **args)
+    else:
+        call("editMessageText", text=text, disable_web_page_preview="true", **args)
 
 
 def main():
@@ -83,7 +125,7 @@ def main():
     print("server started, site ok:", state["ok"])
     while time.time() < END:
         r = call("getUpdates", offset=offset, timeout=25,
-                 allowed_updates=json.dumps(["message", "channel_post", "my_chat_member"]))
+                 allowed_updates=json.dumps(["message", "channel_post", "my_chat_member", "callback_query"]))
         for u in r.get("result", []):
             offset = u["update_id"] + 1
             try:

@@ -16,9 +16,13 @@ show("desc", call("setMyDescription", description=(
     "🟢 Слежу за сайтом Promptly и пишу, если он упал или обновился.\n\n"
     "/status — работает ли сайт\n/stats — посещения и клики\n\n"
     "🛠 Делаю сайты, Telegram-ботов, автоматизацию, презентации и приложения под ключ. Заказ: @promptly3")))
-cmds = [{"command": "status", "description": "Работает ли сайт сейчас"},
+cmds = [{"command": "start", "description": "Главное меню"},
+        {"command": "status", "description": "Работает ли сайт сейчас"},
         {"command": "stats", "description": "Посещения и клики"},
-        {"command": "help", "description": "Справка и заказ"}]
+        {"command": "services", "description": "Услуги"},
+        {"command": "works", "description": "Кейсы"},
+        {"command": "faq", "description": "Частые вопросы"},
+        {"command": "order", "description": "Заказать"}]
 show("cmds", call("setMyCommands", commands=json.dumps(cmds)))
 show("menu", call("setChatMenuButton", menu_button=json.dumps({"type": "commands"})))
 show("bot-photo", call("setMyProfilePhoto", files={"photo": A}, photo=json.dumps({"type": "static", "photo": "attach://photo"})))

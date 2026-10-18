@@ -40,6 +40,10 @@ def stats_text():
             start = (now - timedelta(days=days)).strftime("%Y-%m-%dT00:00:00Z")
             t = gc(f"stats/total?start={start}&end={now.strftime('%Y-%m-%dT%H:%M:%SZ')}")
             out.append(f"\n<b>{title}</b>: 👤 {t.get('total', 0)} визитов, 🖱 {t.get('total_events', 0)} кликов")
+            if days:
+                d = [x.get("daily", 0) for x in t.get("stats", [])][-7:]
+                if d and max(d) > 0:
+                    out.append("📈 <code>" + "".join("▁▂▃▄▅▆▇█"[min(7, v * 7 // max(d))] for v in d) + f"</code> (по дням, макс {max(d)})")
         start = (now - timedelta(days=6)).strftime("%Y-%m-%dT00:00:00Z")
         hits = gc(f"stats/hits?start={start}&limit=20").get("hits", [])
         clicks = [h for h in hits if h.get("event")][:5]
