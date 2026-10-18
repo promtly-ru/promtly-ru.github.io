@@ -1,0 +1,19 @@
+name: Telegram list admins
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  admins:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - run: |
+          curl -s "https://api.telegram.org/bot${TG_TOKEN}/getChatAdministrators?chat_id=${TG_CHANNEL}" \
+            | python3 -c "import sys,json;d=json.load(sys.stdin);print(d.get('description',''));[print(a['status'],a['user'].get('id'),a['user'].get('username'),a['user'].get('first_name'),a['user'].get('is_bot'),'can_promote=',a.get('can_promote_members')) for a in d.get('result',[])]"
+        env:
+          TG_TOKEN: ${{ secrets.TG_TOKEN }}
+          TG_CHANNEL: ${{ secrets.TG_CHANNEL_ID }}
