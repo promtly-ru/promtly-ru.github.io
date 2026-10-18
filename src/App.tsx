@@ -6,7 +6,6 @@ import { Services } from './components/Services'
 import { Marquee } from './components/Marquee'
 import { Works } from './components/Works'
 import { Brief } from './components/Brief'
-import { SmartCalc } from './components/SmartCalc'
 import { Terminal } from './components/Terminal'
 import { Contacts } from './components/Contacts'
 import { Channel } from './components/Channel'
@@ -40,7 +39,6 @@ export default function App() {
         <Services />
         <Marquee />
         <Works />
-        <SmartCalc theme={theme} />
         <Channel />
         <Brief />
         <Faq />

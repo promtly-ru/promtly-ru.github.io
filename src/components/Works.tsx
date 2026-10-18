@@ -29,7 +29,7 @@ export function Works() {
         </div>
 
         {shown.map((w, i) => (
-          <article className="card card-spot work work-enter" key={w.title} style={delay(i)} onPointerMove={spotlight}>
+          <article className="card card-spot work work-enter" id={w.id} key={w.title} style={delay(i)} onPointerMove={spotlight}>
             <div className="work-media">
             <a className="work-preview" href={w.url} target="_blank" rel="noopener" aria-label={`${w.cta} «${w.title}» в новой вкладке`}>
               <span className="work-bar" aria-hidden="true"><i /><i /><i /><span>{w.url.replace('https://', '')}</span></span>

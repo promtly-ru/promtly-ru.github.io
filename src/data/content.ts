@@ -85,16 +85,19 @@ export type WorkPlatform = {
   note: string
 }
 
-export type WorkCategory = 'game' | 'site' | 'bot' | 'deck'
+export type WorkCategory = 'game' | 'app' | 'site' | 'bot' | 'deck'
 
 export const workCategories: { id: WorkCategory; label: string }[] = [
   { id: 'game', label: 'Игры' },
+  { id: 'app', label: 'Приложения' },
   { id: 'site', label: 'Сайты' },
   { id: 'bot', label: 'Боты' },
   { id: 'deck', label: 'Презентации' },
 ]
 
 export type Work = {
+  /** id якоря: ссылки вида #smartcalc ведут к карточке */
+  id?: string
   category: WorkCategory
   title: string
   type: string
@@ -115,6 +118,7 @@ export type Work = {
 }
 
 const CYBERHACK_DL = 'https://github.com/promtly-ru/cyberhack/releases/download/v0.2.0/'
+const WEB_APP = 'https://promtly-ru.github.io/smartcalc/'
 const DECK = 'https://promtly-ru.github.io/ai-presentation/'
 export const presentationUrl = DECK
 
@@ -196,6 +200,27 @@ export const works: Work[] = [
     ],
     images: ['/img/works/cyberhack-cover.jpg', '/img/works/cyberhack-map.jpg'],
     alt: 'Бой в игре CyberHack: неоновый хакер против бота-файрвола, внизу рука из карт-программ',
+  },
+  {
+    id: 'smartcalc',
+    category: 'app',
+    title: 'SmartCalc',
+    type: 'Приложение',
+    text: 'Калькулятор с четырьмя режимами в одном окне: базовый, программиста, финансовый и инженерный. Для Windows, Mac, Android и iPhone, бесплатно и без регистрации.',
+    features: [
+      'Базовый режим с памятью, программистский с HEX/BIN и побитовыми операциями',
+      'Финансы: кредит, вклад, НДС и маржа. Инженер: длина, масса, температура',
+      'История вычислений, светлая и тёмная тема',
+      'Работает без интернета, ставится как обычное приложение',
+    ],
+    stack: ['TypeScript', 'React', 'PWA', 'Electron', 'Capacitor'],
+    url: WEB_APP,
+    cta: 'Открыть в браузере',
+    version: '1.1.0',
+    releasesUrl: 'https://github.com/promtly-ru/smartcalc/releases',
+    platforms: [],
+    images: ['/img/works/smartcalc-cover.jpg'],
+    alt: 'Три экрана калькулятора SmartCalc: базовый режим, финансы и режим программиста на тёмном фоне',
   },
   {
     category: 'deck',
@@ -291,7 +316,6 @@ export type Platform = 'windows' | 'mac' | 'android' | 'ios' | 'web'
 
 // latest/download — всегда последняя версия, имена файлов в релизах без номера версии
 const REL = 'https://github.com/promtly-ru/smartcalc/releases/latest/download/'
-const WEB_APP = 'https://promtly-ru.github.io/smartcalc/'
 
 export const smartcalc = {
   name: 'SmartCalc',
@@ -359,3 +383,8 @@ export const smartcalc = {
     note: string
   }[],
 }
+
+
+// Платформы SmartCalc показываются прямо в карточке работы
+const calcWork = works.find((w) => w.id === 'smartcalc')
+if (calcWork) calcWork.platforms = smartcalc.platforms.map((p) => ({ ...p, downloads: p.downloads.map((d) => ({ ...d, web: d.url === WEB_APP })) }))

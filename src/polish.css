@@ -115,3 +115,4 @@ main { counter-reset: sec; }
   .work-enter, .channel::after, .channel .btn svg { animation: none; }
   body::before { transition: none; }
 }
+.work { scroll-margin-top: 90px; }
