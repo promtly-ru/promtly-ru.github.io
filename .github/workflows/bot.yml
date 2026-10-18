@@ -2,26 +2,28 @@ name: Telegram bot
 
 on:
   schedule:
-    - cron: "50 */5 * * *"
+    - cron: "0 */6 * * *"
   workflow_dispatch:
 
 permissions:
   contents: read
 
+# новый запуск встаёт в очередь и стартует, когда предыдущий завершится (без двух опросчиков одновременно)
 concurrency:
   group: tg-bot
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   run:
     runs-on: ubuntu-latest
-    timeout-minutes: 345
+    timeout-minutes: 355
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
       - name: Run bot
         env:
           TG_TOKEN: ${{ secrets.TG_TOKEN }}
-        run: python bot/bot.py
+          TG_CHAT: ${{ secrets.TG_CHAT_ID }}
+          TG_CHANNEL: ${{ secrets.TG_CHANNEL_ID }}
+          GC_TOKEN: ${{ secrets.GOATCOUNTER_TOKEN }}
+          SITE_URL: https://promtly-ru.github.io/
+        run: python3 bot/server.py

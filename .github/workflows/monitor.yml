@@ -40,6 +40,7 @@ jobs:
           TG_CHAT: ${{ secrets.TG_CHAT_ID }}
           TG_CHANNEL: ${{ secrets.TG_CHANNEL_ID }}
           GC_TOKEN: ${{ secrets.GOATCOUNTER_TOKEN }}
+          NO_UPDATES: "1"
           SITE_OK: ${{ steps.check.outputs.ok }}
           SITE_CODE: ${{ steps.check.outputs.code }}
           SITE_MS: ${{ steps.check.outputs.ms }}

@@ -63,6 +63,8 @@ def main():
                f"🕒 {datetime.now(timezone.utc):%d.%m.%Y %H:%M UTC}\n🔁 Проверено 3 раза подряд")
         for chat in filter(None, (OWNER, CHANNEL)):
             send(chat, txt)
+    if os.environ.get("NO_UPDATES"):  # команды обрабатывает постоянный бот (server.py)
+        return
     r = call("getUpdates", timeout=0, allowed_updates=json.dumps(["message", "channel_post", "my_chat_member"]))
     ups = r.get("result", [])
     if ups:
