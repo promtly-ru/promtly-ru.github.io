@@ -4,7 +4,7 @@ import os
 
 SITE = "https://promtly-ru.github.io/"
 ORDER = "https://t.me/nothing8931"
-CHANNEL_LINK = "https://t.me/+XiDWIY2wYiVhN2Rl"
+CHANNEL_LINK = "https://t.me/promptly398"
 BANNER = os.path.join(os.path.dirname(os.path.abspath(__file__)), "assets", "banner.png")
 
 
