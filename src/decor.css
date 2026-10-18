@@ -85,3 +85,22 @@ body::after {
 @media (min-width: 2200px) { html { font-size: 125%; } .container { max-width: 1440px; } }
 .hero-decor { left: 50%; right: auto; width: min(100%, 1700px); transform: translateX(-50%); }
 @media (max-height: 520px) and (orientation: landscape) { .hero { padding: 80px 0 56px; } .section { padding: 64px 0; } }
+
+/* ---------- Карточки работ на узких экранах ---------- */
+.work > *, .work-media > *, .work-info > * { min-width: 0; }
+@media (max-width: 900px) {
+  .work { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+}
+.platforms { display: flex; flex-wrap: wrap; gap: 6px; }
+.platforms .platform { flex: 1 1 auto; }
+.download, .download-panel { max-width: 100%; }
+.download-panel .actions { flex-wrap: wrap; }
+.btn-dl { max-width: 100%; }
+.work-info .actions .btn { flex: 1 1 auto; justify-content: center; }
+@media (max-width: 520px) {
+  .work { padding: 12px; }
+  .work-info .actions .btn, .btn-dl { width: 100%; }
+  .work-downloads { gap: 8px 12px; }
+  .note { font-size: 0.82rem; }
+  .work-stack { flex-wrap: wrap; }
+}
