@@ -4,10 +4,10 @@ const sections = [
   { id: 'top', label: 'Начало' },
   { id: 'services', label: 'Услуги' },
   { id: 'works', label: 'Работы' },
+  { id: 'smartcalc', label: 'SmartCalc' },
   { id: 'channel', label: 'Канал' },
   { id: 'brief', label: 'Заявка' },
   { id: 'faq', label: 'Вопросы' },
-  { id: 'smartcalc', label: 'SmartCalc' },
   { id: 'terminal', label: 'Терминал' },
   { id: 'contacts', label: 'Контакты' },
 ]

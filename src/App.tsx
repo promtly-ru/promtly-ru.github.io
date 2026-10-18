@@ -40,10 +40,10 @@ export default function App() {
         <Services />
         <Marquee />
         <Works />
+        <SmartCalc theme={theme} />
         <Channel />
         <Brief />
         <Faq />
-        <SmartCalc theme={theme} />
         <Terminal onToggleTheme={toggle} />
         <Contacts />
       </main>
