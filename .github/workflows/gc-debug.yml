@@ -1,0 +1,14 @@
+name: GC debug
+on: workflow_dispatch
+jobs:
+  d:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - env:
+          GC_TOKEN: ${{ secrets.GOATCOUNTER_TOKEN }}
+        run: |
+          S=$(date -u -d '6 days ago' +%Y-%m-%dT00:00:00Z); E=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+          for p in "stats/total?start=$S&end=$E" "stats/hits?start=$S&limit=20" "me"; do
+            echo "== $p"; curl -s -w '\nHTTP %{http_code}\n' -H "Authorization: Bearer $GC_TOKEN" "https://promptly.goatcounter.com/api/v0/$p" | head -c 1500
+          done
