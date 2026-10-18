@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: read
+  actions: read
 
 env:
   SITE_URL: https://promtly-ru.github.io/
@@ -33,6 +34,15 @@ jobs:
           echo "code=$code" >> "$GITHUB_OUTPUT"
           echo "ms=$ms" >> "$GITHUB_OUTPUT"
 
+      - name: Is bot alive
+        id: alive
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          n=$(gh api "repos/${{ github.repository }}/actions/workflows/bot.yml/runs?status=in_progress" --jq .total_count || echo 0)
+          echo "alive=$([ "${n:-0}" -gt 0 ] && echo 1 || echo 0)" >> "$GITHUB_OUTPUT"
+
       - name: Alerts and commands
         if: always()
         env:
@@ -41,6 +51,7 @@ jobs:
           TG_CHANNEL: ${{ secrets.TG_CHANNEL_ID }}
           GC_TOKEN: ${{ secrets.GOATCOUNTER_TOKEN }}
           NO_UPDATES: "1"
+          BOT_ALIVE: ${{ steps.alive.outputs.alive }}
           SITE_OK: ${{ steps.check.outputs.ok }}
           SITE_CODE: ${{ steps.check.outputs.code }}
           SITE_MS: ${{ steps.check.outputs.ms }}

@@ -62,7 +62,7 @@ def stats_text():
 
 
 def main():
-    if not OK:
+    if not OK and os.environ.get("BOT_ALIVE") != "1":  # когда бот жив, алерты шлёт он
         txt = (f"🔴 <b>Сайт не отвечает</b>\n\n🌐 {SITE}\n⚠️ Код ответа: <code>{CODE}</code>\n"
                f"🕒 {datetime.now(timezone.utc):%d.%m.%Y %H:%M UTC}\n🔁 Проверено 3 раза подряд")
         for chat in filter(None, (OWNER, CHANNEL)):

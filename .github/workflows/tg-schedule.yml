@@ -26,4 +26,5 @@ jobs:
           git config user.name "promptly-bot"
           git config user.email "bot@users.noreply.github.com"
           git add bot/queue.json
-          git diff --cached --quiet || (git commit -m "queue: post sent" && git push)
+          git diff --cached --quiet || git commit -m "queue: post sent"
+          for i in 1 2 3; do git pull --rebase -q && git push && break; sleep 5; done

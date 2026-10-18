@@ -1,6 +1,7 @@
 """Общие функции Telegram Bot API (stdlib)."""
 import json
 import os
+import time
 import urllib.parse
 import urllib.request
 import uuid
@@ -25,11 +26,20 @@ def call(method, files=None, **params):
         req = urllib.request.Request(API + method, body, {"Content-Type": f"multipart/form-data; boundary={b}"})
     else:
         req = urllib.request.Request(API + method, urllib.parse.urlencode(params).encode())
-    try:
-        with urllib.request.urlopen(req, timeout=120) as r:
-            return json.load(r)
-    except urllib.error.HTTPError as e:
-        return json.load(e)
+    err = "error"
+    for attempt in range(3):
+        try:
+            with urllib.request.urlopen(req, timeout=120) as r:
+                return json.load(r)
+        except urllib.error.HTTPError as e:
+            try:
+                return json.load(e)
+            except Exception:
+                return {"ok": False, "description": f"HTTP {e.code}"}
+        except Exception as e:  # сеть, таймаут, обрыв: не роняем бота
+            err = type(e).__name__
+            time.sleep(2 * (attempt + 1))
+    return {"ok": False, "description": err}
 
 
 def send(chat, text, **kw):
