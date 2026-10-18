@@ -2,7 +2,7 @@
 import json
 import os
 import sys
-from tg import CHANNEL, call, send
+from tg import CHANNEL, OWNER, call, send
 
 D = os.path.dirname(os.path.abspath(__file__))
 mode = sys.argv[1]  # manual | queue
@@ -29,3 +29,6 @@ if item.get("pin"):
 if mode == "queue":
     item["done"] = True
     json.dump(q, open(os.path.join(D, "queue.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+    left = sum(1 for i in q if not i.get("done"))
+    if left <= 2 and OWNER:
+        send(OWNER, f"📝 В очереди постов осталось: <b>{left}</b>. Скажи Claude, чтобы написал новые.")
