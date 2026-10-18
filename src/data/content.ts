@@ -16,7 +16,7 @@ export const stats = [
 ]
 
 export const contacts = {
-  telegram: { label: 'Telegram', value: '@nothing8931', url: 'https://t.me/nothing8931' },
+  telegram: { label: 'Telegram', value: '@promptly3', url: 'https://t.me/promptly3' },
   email: { label: 'Email', value: 'work.vibecoding.398@gmail.com', url: 'mailto:work.vibecoding.398@gmail.com' },
   whatsapp: { label: 'WhatsApp', value: '+7 967 930-63-31', url: 'https://wa.me/79679306331' },
 }

@@ -98,7 +98,7 @@ export function useFancy() {
 
     // Привет тем, кто открыл консоль
     console.log(
-      '%cPromptly%c\nЗаглянули в код? Значит, вы свой человек.\nНужен сайт, бот или скрипт — пишите: https://t.me/nothing8931',
+      '%cPromptly%c\nЗаглянули в код? Значит, вы свой человек.\nНужен сайт, бот или скрипт — пишите: https://t.me/promptly3',
       'font: 800 28px system-ui; color: #10c07f',
       'font: 14px system-ui',
     )
