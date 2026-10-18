@@ -68,6 +68,8 @@ function CountUp({ value, suffix }: { value: number; suffix: string }) {
   return <span ref={ref}>{shown}{suffix}</span>
 }
 
+import { HeroDecor } from './HeroDecor'
+
 export function Hero() {
   const typed = useTyped(profile.headlineWords)
   const fullTitle = `Делаю ${profile.headlineWords.join(', ')} под ваши задачи`
@@ -80,6 +82,7 @@ export function Hero() {
         <span className="blob blob-3" />
         <span className="hero-grid" />
       </div>
+      <HeroDecor />
 
       <div className="container hero-inner">
         <p className="eyebrow hero-in" style={delay(0)}>Разработка под ключ</p>

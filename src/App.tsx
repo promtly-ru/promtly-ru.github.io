@@ -9,6 +9,7 @@ import { Brief } from './components/Brief'
 import { Terminal } from './components/Terminal'
 import { Contacts } from './components/Contacts'
 import { Channel } from './components/Channel'
+import { BackgroundFX } from './components/BackgroundFX'
 import { SideNav } from './components/SideNav'
 import { Footer } from './components/Footer'
 import { Toast } from './components/Toast'
@@ -21,6 +22,7 @@ import { usePageEffects } from './hooks/usePageEffects'
 import { useFancy } from './hooks/useFancy'
 import './App.css'
 import './polish.css'
+import './decor.css'
 
 export default function App() {
   const { theme, toggle } = useTheme()
@@ -31,6 +33,7 @@ export default function App() {
 
   return (
     <>
+      <BackgroundFX />
       <div className="cursor-glow" aria-hidden="true" />
       <CommandPalette theme={theme} onToggleTheme={toggle} />
       <Header theme={theme} onToggleTheme={toggle} />
