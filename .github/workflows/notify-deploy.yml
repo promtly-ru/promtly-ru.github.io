@@ -1,34 +1,52 @@
 name: Notify deploy
 
+# После деплоя сайта: если за последние 40 минут в main был коммит с заголовком «Новое: ...»,
+# пишем о нём в бота (владельцу) и в канал. Служебные правки без «Новое:» ничего не отправляют.
 on:
   workflow_run:
     workflows: ["pages build and deployment"]
     types: [completed]
+  workflow_dispatch:
+    inputs:
+      test:
+        description: Test message to owner only
+        type: boolean
+        default: true
 
 permissions:
   contents: read
 
 jobs:
   notify:
-    if: github.event.workflow_run.conclusion == 'success'
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
-    timeout-minutes: 2
+    timeout-minutes: 3
     steps:
       - name: Send update
         env:
+          GH_TOKEN: ${{ github.token }}
           TG_TOKEN: ${{ secrets.TG_TOKEN }}
           TG_CHAT: ${{ secrets.TG_CHAT_ID }}
           TG_CHANNEL: ${{ secrets.TG_CHANNEL_ID }}
-          MSG: ${{ github.event.workflow_run.head_commit.message }}
+          TEST: ${{ inputs.test }}
         run: |
-          title=$(printf '%s' "$MSG" | head -n1 | sed 's/&/\&amp;/g;s/</\&lt;/g;s/>/\&gt;/g')
-          text="🆕 <b>На сайте обновление</b>
+          esc() { sed 's/&/\&amp;/g;s/</\&lt;/g;s/>/\&gt;/g'; }
+          if [ "$TEST" = "true" ]; then
+            title="Так будет выглядеть уведомление"; targets="$TG_CHAT"
+          else
+            since=$(date -u -d '40 minutes ago' +%Y-%m-%dT%H:%M:%SZ)
+            msg=$(gh api "repos/${GITHUB_REPOSITORY}/commits?sha=main&since=$since&per_page=20" \
+              --jq '[.[] | select(.commit.message | startswith("Новое:"))][0].commit.message // empty')
+            [ -z "$msg" ] && { echo "нет коммитов «Новое:», пропуск"; exit 0; }
+            title=$(printf '%s' "$msg" | head -n1 | sed 's/^Новое:[[:space:]]*//'); targets="$TG_CHANNEL $TG_CHAT"
+          fi
+          title=$(printf '%s' "$title" | esc)
+          text="🆕 <b>На сайте новое</b>
 
-          📝 $title
+          ✨ $title
           🌐 https://promtly-ru.github.io/"
-          for chat in "$TG_CHANNEL" "$TG_CHAT"; do
-            [ -n "$chat" ] && curl -s -m 20 -o /dev/null "https://api.telegram.org/bot${TG_TOKEN}/sendMessage" \
+          for chat in $targets; do
+            curl -s -m 20 -o /dev/null "https://api.telegram.org/bot${TG_TOKEN}/sendMessage" \
               --data-urlencode "chat_id=$chat" --data-urlencode "parse_mode=HTML" \
               --data-urlencode "text=$text"
           done
-          exit 0

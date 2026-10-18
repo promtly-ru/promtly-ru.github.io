@@ -21,6 +21,13 @@ export const contacts = {
   whatsapp: { label: 'WhatsApp', value: '+7 967 930-63-31', url: 'https://wa.me/79679306331' },
 }
 
+export const channel = {
+  title: 'Promptly | Сайты, боты, автоматизация',
+  url: 'https://t.me/+XiDWIY2wYiVhN2Rl',
+  text: 'Показываю, как делаю сайты, ботов и автоматизацию: кейсы, разборы и полезное для бизнеса. Подпишитесь, чтобы не пропустить новое.',
+  points: ['Кейсы и готовые работы', 'Разборы: как автоматизация экономит часы', 'Новости и обновления проектов'],
+}
+
 export type ServiceIcon = 'web' | 'automation' | 'desktop'
 
 export const services: { icon: ServiceIcon; title: string; text: string; items: string[] }[] = [
@@ -216,6 +223,22 @@ export const works: Work[] = [
     cta: 'Открыть сайт',
     images: ['/img/works/murchat-cover.jpg', '/img/works/murchat-pet.jpg'],
     alt: 'Главный экран сайта «Почему мурчат котики?»: спящий рыжий кот и крупный заголовок',
+  },
+  {
+    title: 'Telegram-бот мониторинга',
+    type: 'Telegram-бот',
+    text: 'Бот следит за сайтом и сам пишет, если тот перестал открываться. По команде показывает статус и статистику посещений, а ещё публикует посты в канал по расписанию.',
+    features: [
+      'Проверка сайта каждые 5 минут и мгновенное оповещение о сбое',
+      'Команды /status и /stats работают у любого, кто открыл бота',
+      'Автопубликация постов в канал по расписанию из очереди',
+      'Работает без сервера, на GitHub Actions',
+    ],
+    stack: ['Python', 'Telegram Bot API', 'GitHub Actions', 'GoatCounter'],
+    url: 'https://t.me/Tracking_Promptly_bot',
+    cta: 'Открыть бота',
+    images: ['/img/works/bot-cover.jpg'],
+    alt: 'Чат с ботом Promptly Monitor: ответы на команды /status и /stats и оповещение о возобновлении работы сайта',
   },
 ]
 

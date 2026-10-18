@@ -712,3 +712,10 @@ article.card-spot:hover { translate: 0 -6px; box-shadow: var(--shadow); }
 @media (prefers-reduced-motion: reduce) { .badge-new { animation: none; } }
 @media (pointer: coarse) { .hint-chip:first-child { display: none; } .hint-sep:nth-of-type(1) { display: none; } }
 @media (max-width: 800px) { .palette-btn, button.hint-chip, .hint-sep:first-of-type { display: none !important; } }
+
+/* Блок с приглашением в Telegram-канал */
+.channel { display: flex; align-items: center; justify-content: space-between; gap: 28px; padding: 32px; flex-wrap: wrap; }
+.channel > div { flex: 1 1 360px; }
+.channel h2 { margin: 6px 0 10px; }
+.channel .btn { flex: 0 0 auto; }
+@media (max-width: 640px) { .channel { padding: 22px; } .channel .btn { width: 100%; justify-content: center; } }

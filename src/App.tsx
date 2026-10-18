@@ -9,6 +9,7 @@ import { Brief } from './components/Brief'
 import { SmartCalc } from './components/SmartCalc'
 import { Terminal } from './components/Terminal'
 import { Contacts } from './components/Contacts'
+import { Channel } from './components/Channel'
 import { Footer } from './components/Footer'
 import { Toast } from './components/Toast'
 import { Faq } from './components/Faq'
@@ -37,6 +38,7 @@ export default function App() {
         <Services />
         <Marquee />
         <Works />
+        <Channel />
         <Brief />
         <Faq />
         <SmartCalc theme={theme} />
