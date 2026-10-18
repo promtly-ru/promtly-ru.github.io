@@ -56,3 +56,25 @@ body::after {
 @media (prefers-reduced-motion: reduce) {
   body::after, .glass-chip, .ring, .grid > .card-spot::after, .work::after, .section:not(#channel) > .container > h2 { animation: none; }
 }
+
+/* ---------- Светлая тема: чище фон, глубже карточки ---------- */
+:root[data-theme='light'] {
+  --border: #cddad2;
+  --card-shadow: 0 1px 2px rgba(16, 40, 30, 0.06), 0 14px 34px -16px rgba(16, 60, 40, 0.32);
+}
+:root[data-theme='light'] body {
+  background:
+    radial-gradient(900px 600px at 8% 4%, rgba(110, 231, 183, 0.28), transparent 70%),
+    radial-gradient(800px 600px at 96% 38%, rgba(196, 181, 253, 0.26), transparent 70%),
+    radial-gradient(900px 600px at 20% 80%, rgba(103, 232, 249, 0.2), transparent 70%),
+    #f8faf9;
+  background-attachment: fixed;
+}
+:root[data-theme='light'] body::after { opacity: 0.25; }
+:root[data-theme='light'] .bg-fx { opacity: 0.55; }
+:root[data-theme='light'] .section::before { opacity: 0.3; }
+:root[data-theme='light'] .section-alt { background: rgba(255, 255, 255, 0.55); backdrop-filter: blur(6px); }
+:root[data-theme='light'] .section::after { background: linear-gradient(90deg, transparent, rgba(4, 120, 87, 0.35), transparent); }
+:root[data-theme='light'] .card { background: rgba(255, 255, 255, 0.92); }
+:root[data-theme='light'] .glass-chip { background: rgba(255, 255, 255, 0.7); }
+:root[data-theme='light'] .term { box-shadow: 0 30px 60px -28px rgba(4, 60, 40, 0.55); }
