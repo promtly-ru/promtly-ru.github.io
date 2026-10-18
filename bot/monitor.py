@@ -41,8 +41,7 @@ def stats_text():
         for title, days in (("Сегодня", 0), ("7 дней", 6)):
             t = gc("stats/total?" + urllib.parse.urlencode({"start": iso(now - timedelta(days=days)), "end": iso(now, "%H:%M:%S")}))
             views = t.get("total", 0) - t.get("total_events", 0)  # total включает клики-события
-            out.append(f"
-<b>{title}</b>: 👁 {views} просмотров, 🖱 {t.get('total_events', 0)} кликов")
+            out.append(f"\n<b>{title}</b>: 👁 {views} просмотров, 🖱 {t.get('total_events', 0)} кликов")
         hits = gc("stats/hits?" + urllib.parse.urlencode({"start": iso(now - timedelta(days=6)), "end": iso(now, "%H:%M:%S"), "limit": 100})).get("hits", [])
         pages = [h for h in hits if not h.get("event")]
         clicks = [h for h in hits if h.get("event")][:5]
@@ -52,21 +51,16 @@ def stats_text():
                 daily[d["day"]] = daily.get(d["day"], 0) + d.get("daily", 0)
         d = [daily.get((now - timedelta(days=6 - i)).strftime("%Y-%m-%d"), 0) for i in range(7)]
         if max(d) > 0:
-            out.append("
-📈 7 дней: <code>" + "".join("▁▂▃▄▅▆▇█"[min(7, v * 7 // max(d))] for v in d) + f"</code> (макс {max(d)}/день)")
+            out.append("\n📈 7 дней: <code>" + "".join("▁▂▃▄▅▆▇█"[min(7, v * 7 // max(d))] for v in d) + f"</code> (макс {max(d)}/день)")
         if pages:
-            out.append("
-<b>Страницы за 7 дней</b>")
+            out.append("\n<b>Страницы за 7 дней</b>")
             out += [f"• {h['path']} — {h['count']}" for h in pages[:3]]
         if clicks:
-            out.append("
-<b>Что нажимали за 7 дней</b>")
+            out.append("\n<b>Что нажимали за 7 дней</b>")
             out += [f"• {h['path'].removeprefix('click/')} — {h['count']}" for h in clicks]
         else:
-            out.append("
-Кликов пока нет.")
-        return "
-".join(out)
+            out.append("\nКликов пока нет.")
+        return "\n".join(out)
     except Exception as e:
         return f"📊 Статистика временно недоступна ({type(e).__name__})."
 
