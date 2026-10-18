@@ -1,0 +1,29 @@
+name: Telegram schedule
+
+on:
+  schedule:
+    - cron: "0 7 * * 1,3,5"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: tg-schedule
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 bot/post.py queue
+        env:
+          TG_TOKEN: ${{ secrets.TG_TOKEN }}
+          TG_CHANNEL: ${{ secrets.TG_CHANNEL_ID }}
+      - name: Save queue state
+        run: |
+          git config user.name "promptly-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add bot/queue.json
+          git diff --cached --quiet || (git commit -m "queue: post sent" && git push)

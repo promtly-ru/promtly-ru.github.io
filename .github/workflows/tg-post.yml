@@ -1,0 +1,33 @@
+name: Telegram post
+
+on:
+  workflow_dispatch:
+    inputs:
+      text:
+        description: Post text (HTML allowed)
+        required: true
+      video:
+        description: Attach promo video
+        type: boolean
+        default: false
+      pin:
+        description: Pin the post
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 bot/post.py manual
+        env:
+          TG_TOKEN: ${{ secrets.TG_TOKEN }}
+          TG_CHANNEL: ${{ secrets.TG_CHANNEL_ID }}
+          POST_TEXT: ${{ inputs.text }}
+          POST_VIDEO: ${{ inputs.video }}
+          POST_PIN: ${{ inputs.pin }}

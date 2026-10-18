@@ -37,7 +37,9 @@ jobs:
         if: always()
         env:
           TG_TOKEN: ${{ secrets.TG_TOKEN }}
-                          GC_TOKEN: ${{ secrets.GOATCOUNTER_TOKEN }}
+          TG_CHAT: ${{ secrets.TG_CHAT_ID }}
+          TG_CHANNEL: ${{ secrets.TG_CHANNEL_ID }}
+          GC_TOKEN: ${{ secrets.GOATCOUNTER_TOKEN }}
           SITE_OK: ${{ steps.check.outputs.ok }}
           SITE_CODE: ${{ steps.check.outputs.code }}
           SITE_MS: ${{ steps.check.outputs.ms }}
