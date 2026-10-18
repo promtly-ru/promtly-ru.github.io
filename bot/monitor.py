@@ -2,6 +2,7 @@
 import json
 import os
 import time
+import urllib.parse
 import urllib.request
 from datetime import datetime, timedelta, timezone
 
@@ -34,29 +35,38 @@ def stats_text():
     if not GC_TOKEN:
         return "📊 Статистика подключается, загляни позже."
     try:
-        now = datetime.now(timezone.utc)
+        now = datetime.now(timezone(timedelta(hours=3)))  # часовой пояс сайта в GoatCounter — Москва
+        iso = lambda d, t="00:00:00": d.strftime(f"%Y-%m-%dT{t}+03:00")
         out = ["📊 <b>Статистика сайта</b>"]
         for title, days in (("Сегодня", 0), ("7 дней", 6)):
-            start = (now - timedelta(days=days)).strftime("%Y-%m-%dT00:00:00Z")
-            t = gc(f"stats/total?start={start}&end={now.strftime('%Y-%m-%dT%H:%M:%SZ')}")
-            out.append(f"\n<b>{title}</b>: 👤 {t.get('total', 0)} визитов, 🖱 {t.get('total_events', 0)} кликов")
-            if days:
-                d = [x.get("daily", 0) for x in t.get("stats", [])][-7:]
-                if d and max(d) > 0:
-                    out.append("📈 <code>" + "".join("▁▂▃▄▅▆▇█"[min(7, v * 7 // max(d))] for v in d) + f"</code> (по дням, макс {max(d)})")
-        start = (now - timedelta(days=6)).strftime("%Y-%m-%dT00:00:00Z")
-        hits = gc(f"stats/hits?start={start}&limit=20").get("hits", [])
+            t = gc("stats/total?" + urllib.parse.urlencode({"start": iso(now - timedelta(days=days)), "end": iso(now, "%H:%M:%S")}))
+            views = t.get("total", 0) - t.get("total_events", 0)  # total включает клики-события
+            out.append(f"
+<b>{title}</b>: 👁 {views} просмотров, 🖱 {t.get('total_events', 0)} кликов")
+        hits = gc("stats/hits?" + urllib.parse.urlencode({"start": iso(now - timedelta(days=6)), "end": iso(now, "%H:%M:%S"), "limit": 100})).get("hits", [])
+        pages = [h for h in hits if not h.get("event")]
         clicks = [h for h in hits if h.get("event")][:5]
-        pages = [h for h in hits if not h.get("event")][:3]
+        daily = {}
+        for h in pages:
+            for d in h.get("stats", []):
+                daily[d["day"]] = daily.get(d["day"], 0) + d.get("daily", 0)
+        d = [daily.get((now - timedelta(days=6 - i)).strftime("%Y-%m-%d"), 0) for i in range(7)]
+        if max(d) > 0:
+            out.append("
+📈 7 дней: <code>" + "".join("▁▂▃▄▅▆▇█"[min(7, v * 7 // max(d))] for v in d) + f"</code> (макс {max(d)}/день)")
         if pages:
-            out.append("\n<b>Страницы за 7 дней</b>")
-            out += [f"• {h['path']} — {h['count']}" for h in pages]
+            out.append("
+<b>Страницы за 7 дней</b>")
+            out += [f"• {h['path']} — {h['count']}" for h in pages[:3]]
         if clicks:
-            out.append("\n<b>Что нажимали за 7 дней</b>")
+            out.append("
+<b>Что нажимали за 7 дней</b>")
             out += [f"• {h['path'].removeprefix('click/')} — {h['count']}" for h in clicks]
         else:
-            out.append("\nКликов пока нет.")
-        return "\n".join(out)
+            out.append("
+Кликов пока нет.")
+        return "
+".join(out)
     except Exception as e:
         return f"📊 Статистика временно недоступна ({type(e).__name__})."
 
