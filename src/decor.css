@@ -78,3 +78,10 @@ body::after {
 :root[data-theme='light'] .card { background: rgba(255, 255, 255, 0.92); }
 :root[data-theme='light'] .glass-chip { background: rgba(255, 255, 255, 0.7); }
 :root[data-theme='light'] .term { box-shadow: 0 30px 60px -28px rgba(4, 60, 40, 0.55); }
+
+/* ---------- Другие размеры экрана ---------- */
+@media (min-width: 640px) { .container { padding-inline: 24px; } }
+@media (min-width: 1600px) { html { font-size: 112.5%; } .container { max-width: 1240px; } }
+@media (min-width: 2200px) { html { font-size: 125%; } .container { max-width: 1440px; } }
+.hero-decor { left: 50%; right: auto; width: min(100%, 1700px); transform: translateX(-50%); }
+@media (max-height: 520px) and (orientation: landscape) { .hero { padding: 80px 0 56px; } .section { padding: 64px 0; } }
