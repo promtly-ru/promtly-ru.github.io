@@ -12,6 +12,7 @@ env:
   SITE_URL: https://promtly-ru.github.io/
   TG_API: https://api.telegram.org/bot${{ secrets.TG_TOKEN }}
   TG_CHAT: ${{ secrets.TG_CHAT_ID }}
+  TG_CHANNEL: ${{ secrets.TG_CHANNEL_ID }}
 
 jobs:
   check:
@@ -36,60 +37,65 @@ jobs:
 
       - name: Alert on failure
         if: steps.check.outputs.ok != '1'
+        env:
+          CODE: ${{ steps.check.outputs.code }}
         run: |
           now=$(date -u '+%d.%m.%Y %H:%M UTC')
           text="🔴 <b>Сайт не отвечает</b>
 
           🌐 $SITE_URL
-          ⚠️ Код ответа: <code>${{ steps.check.outputs.code }}</code>
+          ⚠️ Код ответа: <code>$CODE</code>
           🕒 $now
           🔁 Проверено 3 раза подряд"
-          curl -s -m 20 "$TG_API/sendMessage" \
-            --data-urlencode "chat_id=$TG_CHAT" \
-            --data-urlencode "parse_mode=HTML" \
-            --data-urlencode "text=$text"
+          for chat in "$TG_CHAT" "$TG_CHANNEL"; do
+            [ -n "$chat" ] && curl -s -m 20 -o /dev/null "$TG_API/sendMessage"               --data-urlencode "chat_id=$chat" --data-urlencode "parse_mode=HTML"               --data-urlencode "text=$text"
+          done
+          exit 0
 
       - name: Answer commands
+        env:
+          OK: ${{ steps.check.outputs.ok }}
+          CODE: ${{ steps.check.outputs.code }}
+          MS: ${{ steps.check.outputs.ms }}
         run: |
           now_ts=$(date +%s)
           updates=$(curl -s -m 20 "$TG_API/getUpdates?timeout=0&allowed_updates=%5B%22message%22%5D")
-          # команды только от владельца и не старше 6 минут
-          cmds=$(echo "$updates" | jq -r --arg chat "$TG_CHAT" --argjson now "$now_ts" \
-            '.result[]?.message | select((.chat.id|tostring)==$chat and ($now - .date) < 360) | .text // empty')
           # подтверждаем обработанные сообщения, чтобы не отвечать дважды
           last=$(echo "$updates" | jq -r '[.result[]?.update_id] | max // empty')
           if [ -n "$last" ]; then
             curl -s -m 20 -o /dev/null "$TG_API/getUpdates?offset=$((last+1))&timeout=0"
           fi
-          if echo "$cmds" | grep -q '^/status'; then
-            if [ "${{ steps.check.outputs.ok }}" = "1" ]; then
-              text="🟢 <b>Сайт работает</b>
+          if [ "$OK" = "1" ]; then
+            status="🟢 <b>Сайт работает</b>
 
           🌐 $SITE_URL
-          ⚡ Ответ: <code>${{ steps.check.outputs.ms }} мс</code>
+          ⚡ Ответ: <code>$MS мс</code>
           📡 Код: <code>200</code>"
-            else
-              text="🔴 <b>Сайт недоступен</b>
+          else
+            status="🔴 <b>Сайт недоступен</b>
 
           🌐 $SITE_URL
-          ⚠️ Код: <code>${{ steps.check.outputs.code }}</code>"
-            fi
-            curl -s -m 20 "$TG_API/sendMessage" --data-urlencode "chat_id=$TG_CHAT" \
-              --data-urlencode "parse_mode=HTML" --data-urlencode "text=$text"
+          ⚠️ Код: <code>$CODE</code>"
           fi
-          if echo "$cmds" | grep -q '^/\(help\|start\)'; then
-            text="👋 <b>Promptly Monitor</b>
+          help="👋 <b>Promptly Monitor</b>
 
-          Слежу за сайтом каждые 5 минут и пишу, если он упал.
+          Слежу за сайтом каждые 5 минут и пишу, если он упал или обновился.
 
-          /status - состояние сейчас
+          /status - работает ли сайт сейчас
           /help - эта справка
 
-          ⏱ Ответы на команды приходят с задержкой до 5 минут."
-
-            curl -s -m 20 "$TG_API/sendMessage" --data-urlencode "chat_id=$TG_CHAT" \
-              --data-urlencode "parse_mode=HTML" --data-urlencode "text=$text"
-          fi
+          ⏱ Ответы приходят с задержкой до 5 минут."
+          # команды от любых пользователей (личка и группы), не старше 6 минут
+          echo "$updates" | jq -r --argjson now "$now_ts"             '.result[]?.message | select(($now - .date) < 360 and .text != null)
+             | "\(.chat.id) \(.text | split(" ")[0] | split("@")[0] | ascii_downcase)"' |
+          while read -r chat cmd; do
+            case "$cmd" in
+              /status) text="$status" ;;
+              /help|/start) text="$help" ;;
+              *) continue ;;
+            esac
+            curl -s -m 20 -o /dev/null "$TG_API/sendMessage" --data-urlencode "chat_id=$chat"               --data-urlencode "parse_mode=HTML" --data-urlencode "text=$text"
+          done
 
       - name: Fail job when site is down
         if: steps.check.outputs.ok != '1'
