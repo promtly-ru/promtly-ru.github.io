@@ -1,7 +1,11 @@
-name: Telegram list admins
+name: Telegram make admin
 
 on:
   workflow_dispatch:
+    inputs:
+      username:
+        description: Username without @
+        default: nothing8931
 
 permissions:
   contents: read
@@ -12,8 +16,13 @@ jobs:
     timeout-minutes: 5
     steps:
       - run: |
-          curl -s "https://api.telegram.org/bot${TG_TOKEN}/getChatAdministrators?chat_id=${TG_CHANNEL}" \
-            | python3 -c "import sys,json;d=json.load(sys.stdin);print(d.get('description',''));[print(a['status'],a['user'].get('id'),a['user'].get('username'),a['user'].get('first_name'),a['user'].get('is_bot'),'can_promote=',a.get('can_promote_members')) for a in d.get('result',[])]"
+          A="https://api.telegram.org/bot${TG_TOKEN}"
+          echo "getChat:"; curl -s "$A/getChat?chat_id=@${UNAME}" | python3 -c "import sys,json;d=json.load(sys.stdin);r=d.get('result',{});print(d.get('ok'),d.get('description',''),r.get('id'),r.get('type'))"
+          UID_=$(curl -s "$A/getChat?chat_id=@${UNAME}" | python3 -c "import sys,json;print(json.load(sys.stdin).get('result',{}).get('id',''))")
+          [ -z "$UID_" ] && { echo "id не найден"; exit 0; }
+          echo "promote:"; curl -s "$A/promoteChatMember" -d chat_id="${TG_CHANNEL}" -d user_id="$UID_" -d can_manage_chat=true -d can_post_messages=true -d can_edit_messages=true -d can_delete_messages=true -d can_invite_users=true -d can_pin_messages=true -d can_manage_video_chats=true -d can_change_info=true
+          echo; echo "admins:"; curl -s "$A/getChatAdministrators?chat_id=${TG_CHANNEL}" | python3 -c "import sys,json;[print(a['status'],a['user'].get('id'),a['user'].get('username')) for a in json.load(sys.stdin).get('result',[])]"
         env:
           TG_TOKEN: ${{ secrets.TG_TOKEN }}
           TG_CHANNEL: ${{ secrets.TG_CHANNEL_ID }}
+          UNAME: ${{ inputs.username }}
