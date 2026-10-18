@@ -89,6 +89,26 @@ export const presentationUrl = DECK
 // Примеры работ: открываются вживую по ссылке
 export const works: Work[] = [
   {
+    title: 'CyberHack',
+    type: 'Браузерная игра',
+    text: 'Карточный roguelike в неоновом киберпанке: собираешь колоду программ-взломщиков и проходишь три акта охранных систем. Играется в браузере, на телефоне и ставится как приложение.',
+    features: [
+      'Три класса, 100+ карт, 63 реликвии, 15 уровней сложности',
+      'Ежедневный забег и ачивки, которые открывают новые карты',
+      'Баланс выверен ботами на тысячах автоматических забегов',
+      'Работает офлайн, есть версии для Windows, macOS, Linux и Android',
+      'Удобно играть пальцем: превью карты по долгому тапу',
+    ],
+    stack: ['TypeScript', 'React', 'Pixi.js', 'PWA', 'Tauri', 'Capacitor', 'Playwright'],
+    url: 'https://promtly-ru.github.io/cyberhack/',
+    cta: 'Играть',
+    downloads: [
+      { label: 'Установщики', hint: 'Windows, macOS, Linux, Android', url: 'https://github.com/promtly-ru/cyberhack/releases/latest' },
+    ],
+    images: ['/img/works/cyberhack-cover.jpg', '/img/works/cyberhack-map.jpg'],
+    alt: 'Бой в игре CyberHack: неоновый хакер против бота-файрвола, внизу рука из карт-программ',
+  },
+  {
     title: 'AI-автоматизация для бизнеса',
     type: 'Презентация',
     text: 'Продающая презентация для владельцев малого бизнеса о том, как AI снимает рутину. Открывается по ссылке, а для отправки и печати скачивается в PDF и PowerPoint.',
