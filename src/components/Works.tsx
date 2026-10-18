@@ -49,6 +49,7 @@ export function Works() {
                 ))}
               </ul>
             )}
+            {w.platforms && !w.gallery && <PlatformDownload work={w} />}
             </div>
 
             <div className="work-info">
@@ -71,7 +72,7 @@ export function Works() {
                   <MessageSquare size={18} aria-hidden="true" /> Хочу похожий
                 </a>
               </div>
-              {w.platforms && <PlatformDownload work={w} />}
+              {w.platforms && w.gallery && <PlatformDownload work={w} />}
               {w.downloads && (
                 <div className="work-downloads">
                   <span className="muted">Скачать:</span>
