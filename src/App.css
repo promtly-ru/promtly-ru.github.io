@@ -571,6 +571,13 @@ article.card-spot:hover { translate: 0 -6px; box-shadow: var(--shadow); }
 /* ---------- Работы ---------- */
 .work { display: grid; grid-template-columns: 1.25fr 1fr; gap: 36px; align-items: center; padding: 20px; }
 .work + .work { margin-top: 24px; }
+.work-media { display: flex; flex-direction: column; gap: 14px; align-self: start; position: sticky; top: 96px; }
+.work-demo { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; border: 1px solid var(--border); border-radius: 12px; background: var(--bg-alt); }
+.work-gallery { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.work-gallery li { margin: 0; }
+.work-gallery img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; border: 1px solid var(--border); border-radius: 8px; background: var(--bg-alt); }
+.work-gallery span { display: block; margin-top: 4px; color: var(--muted); font-size: 0.78rem; text-align: center; }
+@media (max-width: 900px) { .work-media { position: static; } }
 .work-preview {
   display: block; overflow: hidden; text-decoration: none;
   border: 1px solid var(--border); border-radius: 12px; background: var(--bg); box-shadow: var(--shadow);

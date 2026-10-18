@@ -17,6 +17,7 @@ export function Works() {
 
         {works.map((w, i) => (
           <article className="card card-spot work" key={w.title} data-reveal style={delay(i)} onPointerMove={spotlight}>
+            <div className="work-media">
             <a className="work-preview" href={w.url} target="_blank" rel="noopener" aria-label={`${w.cta} «${w.title}» в новой вкладке`}>
               <span className="work-bar" aria-hidden="true"><i /><i /><i /><span>{w.url.replace('https://', '')}</span></span>
               <span className="work-shots">
@@ -24,6 +25,18 @@ export function Works() {
                 {w.images[1] && <img className="work-shot-alt" src={w.images[1]} alt="" width={1280} height={800} loading="lazy" />}
               </span>
             </a>
+            {w.demo && <img className="work-demo" src={w.demo.src} alt={w.demo.alt} width={560} height={350} loading="lazy" />}
+            {w.gallery && (
+              <ul className="work-gallery">
+                {w.gallery.map((g) => (
+                  <li key={g.src}>
+                    <img src={g.src} alt={g.alt} width={640} height={400} loading="lazy" />
+                    <span>{g.caption}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
+            </div>
 
             <div className="work-info">
               <p className="eyebrow">{w.type}</p>
