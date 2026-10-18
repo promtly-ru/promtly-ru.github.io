@@ -1,0 +1,24 @@
+name: Telegram clean channel
+
+on:
+  workflow_dispatch:
+    inputs:
+      keep_pinned:
+        description: Keep pinned message
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+jobs:
+  clean:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 bot/clean.py
+        env:
+          TG_TOKEN: ${{ secrets.TG_TOKEN }}
+          TG_CHANNEL: ${{ secrets.TG_CHANNEL_ID }}
+          KEEP_PINNED: ${{ inputs.keep_pinned }}
