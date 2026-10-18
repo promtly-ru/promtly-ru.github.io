@@ -10,6 +10,7 @@ import { SmartCalc } from './components/SmartCalc'
 import { Terminal } from './components/Terminal'
 import { Contacts } from './components/Contacts'
 import { Channel } from './components/Channel'
+import { SideNav } from './components/SideNav'
 import { Footer } from './components/Footer'
 import { Toast } from './components/Toast'
 import { Faq } from './components/Faq'
@@ -20,6 +21,7 @@ import { useTheme } from './hooks/useTheme'
 import { usePageEffects } from './hooks/usePageEffects'
 import { useFancy } from './hooks/useFancy'
 import './App.css'
+import './polish.css'
 
 export default function App() {
   const { theme, toggle } = useTheme()
@@ -46,6 +48,7 @@ export default function App() {
         <Contacts />
       </main>
       <Footer />
+      <SideNav />
       <Toast />
       <a className="tg-fab" href={contacts.telegram.url} target="_blank" rel="noreferrer" aria-label="Написать в Telegram">
         <Send size={24} aria-hidden="true" />

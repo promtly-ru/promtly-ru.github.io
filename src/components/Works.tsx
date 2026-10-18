@@ -1,6 +1,6 @@
-import type { CSSProperties } from 'react'
+import { useState, type CSSProperties } from 'react'
 import { Check, Download, ExternalLink, MessageSquare } from 'lucide-react'
-import { works } from '../data/content'
+import { workCategories, works, type WorkCategory } from '../data/content'
 import { PlatformDownload } from './PlatformDownload'
 import { spotlight } from '../hooks/usePageEffects'
 import { Scramble } from './Scramble'
@@ -9,14 +9,27 @@ import { GithubPulse } from './GithubPulse'
 const delay = (i: number) => ({ '--d': `${i * 100}ms` }) as CSSProperties
 
 export function Works() {
+  const [cat, setCat] = useState<WorkCategory | 'all'>('all')
+  const shown = works.filter((w) => cat === 'all' || w.category === cat)
   return (
     <section className="section" id="works">
       <div className="container">
         <h2 data-reveal><Scramble text="Работы" /></h2>
         <p className="section-lead" data-reveal>Примеры того, что я делаю для клиентов. Их можно открыть и потрогать вживую.</p>
 
-        {works.map((w, i) => (
-          <article className="card card-spot work" key={w.title} data-reveal style={delay(i)} onPointerMove={spotlight}>
+        <div className="chips work-filter" role="group" aria-label="Фильтр работ" data-reveal>
+          <button type="button" className="chip" aria-pressed={cat === 'all'} onClick={() => setCat('all')}>
+            Все <small>{works.length}</small>
+          </button>
+          {workCategories.map((c) => (
+            <button key={c.id} type="button" className="chip" aria-pressed={cat === c.id} onClick={() => setCat(c.id)}>
+              {c.label} <small>{works.filter((w) => w.category === c.id).length}</small>
+            </button>
+          ))}
+        </div>
+
+        {shown.map((w, i) => (
+          <article className="card card-spot work work-enter" key={w.title} style={delay(i)} onPointerMove={spotlight}>
             <div className="work-media">
             <a className="work-preview" href={w.url} target="_blank" rel="noopener" aria-label={`${w.cta} «${w.title}» в новой вкладке`}>
               <span className="work-bar" aria-hidden="true"><i /><i /><i /><span>{w.url.replace('https://', '')}</span></span>

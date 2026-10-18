@@ -1,0 +1,117 @@
+/* Оформление поверх основных стилей: нумерация разделов, декор, фильтр работ, точки навигации */
+
+::selection { background: color-mix(in srgb, var(--accent) 35%, transparent); color: var(--fg); }
+html { scrollbar-color: color-mix(in srgb, var(--accent) 55%, var(--bg)) var(--bg); }
+
+/* Полоса прогресса прокрутки */
+body::before {
+  content: '';
+  position: fixed; top: 0; left: 0; z-index: 1000;
+  height: 3px; width: 100%;
+  transform-origin: 0 50%;
+  transform: scaleX(var(--scroll, 0));
+  background: linear-gradient(90deg, var(--accent), var(--accent-2), var(--blob-3));
+  pointer-events: none;
+}
+
+/* Нумерация разделов: 01 / 02 / ... над заголовком */
+main { counter-reset: sec; }
+.section:not(#channel) > .container > h2 { counter-increment: sec; position: relative; padding-bottom: 14px; margin-bottom: 14px; }
+.section:not(#channel) > .container > h2::before {
+  content: '0' counter(sec) ' /';
+  display: block; margin-bottom: 8px;
+  font: 600 0.8rem/1 ui-monospace, 'JetBrains Mono', Consolas, monospace;
+  letter-spacing: 0.14em; color: var(--accent);
+}
+.section:not(#channel) > .container > h2::after {
+  content: ''; position: absolute; left: 0; bottom: 0;
+  width: 56px; height: 3px; border-radius: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  transition: width 0.5s var(--ease);
+}
+.section:not(#channel) > .container:hover > h2::after { width: 120px; }
+
+/* Фоновый декор секций: точечная сетка и мягкое свечение, чередуются */
+.section { isolation: isolate; }
+.section::before {
+  content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background-image: radial-gradient(color-mix(in srgb, var(--accent) 22%, transparent) 1px, transparent 1.4px);
+  background-size: 26px 26px;
+  mask-image: radial-gradient(ellipse 60% 50% at 100% 0%, #000, transparent 70%);
+  opacity: 0.55;
+}
+.section:nth-of-type(even)::before { mask-image: radial-gradient(ellipse 60% 50% at 0% 0%, #000, transparent 70%); }
+.section::after {
+  content: ''; position: absolute; left: 50%; top: 0; z-index: -1;
+  width: min(900px, 90%); height: 1px; transform: translateX(-50%);
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--accent) 45%, var(--border)), transparent);
+}
+.section-alt::after { display: none; }
+
+/* Карточки: мягкое свечение при наведении */
+.card { transition: border-color 0.25s, box-shadow 0.3s, background-color 0.3s; }
+.grid > .card-spot:hover, .work:hover, .channel:hover {
+  box-shadow: 0 18px 50px -18px color-mix(in srgb, var(--accent) 45%, transparent);
+}
+
+/* Фильтр работ */
+.work-filter { margin-bottom: 28px; }
+.work-filter .chip { display: inline-flex; align-items: center; gap: 8px; }
+.work-filter .chip small {
+  font: 600 0.72rem/1 ui-monospace, Consolas, monospace;
+  min-width: 20px; padding: 3px 6px; border-radius: 99px; text-align: center;
+  background: var(--accent-soft); color: var(--accent);
+}
+.work-filter .chip[aria-pressed='true'] small { background: color-mix(in srgb, var(--accent-fg) 18%, transparent); color: var(--accent-fg); }
+.work-enter { animation: work-in 0.55s var(--ease) both; animation-delay: var(--d, 0ms); }
+@keyframes work-in { from { opacity: 0; transform: translateY(24px) scale(0.985); } to { opacity: 1; transform: none; } }
+
+/* Канал: живой градиент и бумажный самолётик */
+.channel {
+  background:
+    radial-gradient(500px 220px at 90% 0%, color-mix(in srgb, var(--accent) 22%, transparent), transparent 70%),
+    radial-gradient(420px 220px at 0% 100%, color-mix(in srgb, var(--blob-3) 18%, transparent), transparent 70%),
+    var(--card);
+  overflow: hidden;
+}
+.channel::after {
+  content: ''; position: absolute; right: -40px; bottom: -40px; width: 220px; height: 220px; pointer-events: none;
+  background: conic-gradient(from 0deg, transparent, color-mix(in srgb, var(--accent) 25%, transparent), transparent 40%);
+  border-radius: 50%; filter: blur(30px); animation: spin 9s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.channel .btn svg { animation: plane 2.4s ease-in-out infinite; }
+@keyframes plane { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(3px, -3px) rotate(8deg); } }
+
+/* Терминал: свечение и тонкие строки развёртки */
+.term { box-shadow: 0 30px 70px -30px color-mix(in srgb, var(--accent) 40%, transparent); }
+.term-screen { background-image: repeating-linear-gradient(0deg, transparent 0 2px, rgba(255, 255, 255, 0.015) 2px 3px); }
+
+/* Точки навигации справа */
+.side-nav {
+  position: fixed; right: 14px; top: 50%; z-index: 40; transform: translateY(-50%);
+  display: none; flex-direction: column; gap: 4px;
+}
+@media (min-width: 1240px) { .side-nav { display: flex; } }
+.side-nav a {
+  position: relative; display: block; width: 22px; height: 22px; text-decoration: none;
+}
+.side-nav a::before {
+  content: ''; position: absolute; inset: 7px; border-radius: 50%;
+  background: var(--border); border: 1px solid color-mix(in srgb, var(--muted) 50%, transparent);
+  transition: background 0.25s, transform 0.25s, box-shadow 0.25s;
+}
+.side-nav a:hover::before, .side-nav a:focus-visible::before { background: var(--accent-2); transform: scale(1.3); }
+.side-nav a.is-active::before { background: var(--accent); border-color: var(--accent); transform: scale(1.5); box-shadow: 0 0 0 4px var(--accent-soft), 0 0 14px var(--accent); }
+.side-nav a span {
+  position: absolute; right: 30px; top: 50%; transform: translate(6px, -50%);
+  padding: 4px 10px; border-radius: 8px; white-space: nowrap; font-size: 0.78rem; font-weight: 600;
+  background: var(--card); border: 1px solid var(--border); color: var(--fg);
+  opacity: 0; pointer-events: none; transition: opacity 0.2s, transform 0.2s;
+}
+.side-nav a:hover span, .side-nav a:focus-visible span { opacity: 1; transform: translate(0, -50%); }
+
+@media (prefers-reduced-motion: reduce) {
+  .work-enter, .channel::after, .channel .btn svg { animation: none; }
+  body::before { transition: none; }
+}

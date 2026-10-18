@@ -10,6 +10,7 @@ type Props = { theme: Theme; onToggleTheme: () => void }
 const links = [
   { id: 'services', label: 'Услуги' },
   { id: 'works', label: 'Работы' },
+  { id: 'channel', label: 'Канал' },
   { id: 'brief', label: 'Заявка' },
   { id: 'faq', label: 'Вопросы' },
   { id: 'smartcalc', label: 'SmartCalc' },

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type FormEvent, type KeyboardEvent } from 'react'
-import { contacts, presentationUrl, profile, services, smartcalc, works } from '../data/content'
+import { channel, contacts, presentationUrl, profile, services, smartcalc, works } from '../data/content'
 import { confetti, shareSite } from '../lib/fx'
 import { Scramble } from './Scramble'
 
@@ -26,14 +26,42 @@ const HELP = [
   'palette    — палитра команд (Ctrl+K)',
   'share      — поделиться сайтом',
   'uptime     — сколько вы уже на сайте',
+  'channel    — мой Telegram-канал',
+  'bot        — мой бот-пример',
+  'python     — математика по-питонски',
   'joke       — шутка для разработчиков',
   'theme      — сменить тему',
   'date       — текущие дата и время',
   'clear      — очистить экран',
 ].join('\n')
 
-const COMMANDS = ['help', 'about', 'services', 'works', 'smartcalc', 'deck', 'contacts', 'hire', 'faq', 'palette', 'share', 'uptime', 'joke', 'theme', 'date', 'clear']
-const QUICK = ['help', 'services', 'hire', 'joke', 'theme']
+const COMMANDS = ['help', 'about', 'services', 'works', 'smartcalc', 'deck', 'contacts', 'hire', 'faq', 'palette', 'share', 'uptime', 'channel', 'bot', 'python', 'joke', 'theme', 'date', 'clear']
+const QUICK = ['help', 'services', 'hire', 'python', 'joke', 'theme']
+
+// «Математика по-питонски»: числа — строки, + склеивает, * повторяет (как "2"+"2" и "2"*3 в Python)
+const MATH_RE = /^\d[\d\s+*\-/]*\d$|^\d$/
+const OP_RE = /[+*\-/]/
+function pyMath(expr: string): { text: string; err?: boolean } {
+  const bad = expr.match(/[-/]/)
+  if (bad) return { text: `TypeError: unsupported operand type(s) for ${bad[0]}: 'str' and 'str'`, err: true }
+  const res = expr
+    .split('+')
+    .map((term) => {
+      const [first, ...rest] = term.split('*')
+      return rest.reduce((acc, f) => acc.repeat(Math.min(Number(f), 200)), first)
+    })
+    .join('')
+  return { text: res.length > 400 ? res.slice(0, 400) + '…' : res }
+}
+
+const PY_HINT = [
+  'Python 3.∞ (matematika edition)',
+  '>>> 2+2          # 22',
+  '>>> 22+22        # 2222',
+  '>>> 2*3          # 222',
+  '>>> 2-2          # TypeError, как и положено',
+  'Просто введите пример, например: 2+2',
+].join('\n')
 
 const scrollTo = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
 
@@ -63,6 +91,12 @@ export function Terminal({ onToggleTheme }: { onToggleTheme: () => void }) {
     if (cmd === 'clear') return setLines([])
 
     const out = (text: string, kind: Line['kind'] = 'out') => setLines((l) => [...l, { kind: 'in', text: raw.trim() }, { kind, text }])
+
+    const expr = cmd.replace(/\s+/g, '')
+    if (MATH_RE.test(expr) && OP_RE.test(expr)) {
+      const r = pyMath(expr)
+      return out(r.text, r.err ? 'err' : 'out')
+    }
 
     switch (cmd) {
       case 'help':
@@ -104,6 +138,44 @@ export function Terminal({ onToggleTheme }: { onToggleTheme: () => void }) {
         return out('Тема переключена ✨')
       case 'date':
         return out(new Date().toLocaleString('ru-RU', { dateStyle: 'full', timeStyle: 'short' }))
+      case 'channel':
+      case 'tg':
+        out(`${channel.title}\n${channel.url}`)
+        return scrollTo('channel')
+      case 'bot':
+        return out('@Tracking_Promptly_bot — бот мониторинга, пример моих ботов\nhttps://t.me/Tracking_Promptly_bot')
+      case 'python':
+      case 'python3':
+      case 'matematika':
+      case 'math':
+        return out(PY_HINT)
+      case 'whoami':
+        return out('guest. А вы, видимо, будущий клиент 😉')
+      case 'pwd':
+        return out('/home/guest/promptly')
+      case 'hello':
+      case 'hi':
+      case 'привет':
+        return out('Привет! Напишите, что нужно сделать: команда hire 👋')
+      case '42':
+        return out('Ответ на главный вопрос жизни, вселенной и всего такого.')
+      case 'coffee':
+        return out(['   ( (', '    ) )', '  ........', '  |      |]', '  \\      /', "   `----'", 'Кофе готов ☕'].join('\n'))
+      case 'ping':
+        return out('PONG! Сайт жив, отвечает быстро.')
+      case 'neofetch':
+        return out(['guest@promptly', '--------------', 'OS:     Web 2026', 'Stack:  React + Vite + TypeScript', 'Host:   GitHub Pages', 'Bots:   Python + Actions', `Uptime: ${Math.round(performance.now() / 1000)} с`].join('\n'))
+      case 'cowsay':
+        return out([' ______________', '< Закажи сайт! >', ' --------------', '        \\   ^__^', '         \\  (oo)\\_______', '            (__)\\       )\\/\\', '                ||----w |', '                ||     ||'].join('\n'))
+      case 'import this':
+        return out('Простое лучше сложного.\nЧитаемость имеет значение.\nСейчас лучше, чем никогда.\nНапишите мне сейчас: команда hire.')
+      case 'sudo make me a sandwich':
+        confetti()
+        return out('Okay. 🥪')
+      case 'vim':
+      case 'exit':
+      case 'quit':
+        return out('Отсюда не выйти 😈 Шутка: просто закройте вкладку или введите hire')
       case 'sudo':
       case 'sudo hire':
         confetti()

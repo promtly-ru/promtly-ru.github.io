@@ -85,7 +85,17 @@ export type WorkPlatform = {
   note: string
 }
 
+export type WorkCategory = 'game' | 'site' | 'bot' | 'deck'
+
+export const workCategories: { id: WorkCategory; label: string }[] = [
+  { id: 'game', label: 'Игры' },
+  { id: 'site', label: 'Сайты' },
+  { id: 'bot', label: 'Боты' },
+  { id: 'deck', label: 'Презентации' },
+]
+
 export type Work = {
+  category: WorkCategory
   title: string
   type: string
   text: string
@@ -111,6 +121,7 @@ export const presentationUrl = DECK
 // Примеры работ: открываются вживую по ссылке
 export const works: Work[] = [
   {
+    category: 'game',
     title: 'CyberHack',
     type: 'Браузерная игра',
     text: 'Карточный roguelike в неоновом киберпанке: собираешь колоду программ-взломщиков и проходишь три акта охранных систем. Играется в браузере, на телефоне и ставится как приложение.',
@@ -187,6 +198,7 @@ export const works: Work[] = [
     alt: 'Бой в игре CyberHack: неоновый хакер против бота-файрвола, внизу рука из карт-программ',
   },
   {
+    category: 'deck',
     title: 'AI-автоматизация для бизнеса',
     type: 'Презентация',
     text: 'Продающая презентация для владельцев малого бизнеса о том, как AI снимает рутину. Открывается по ссылке, а для отправки и печати скачивается в PDF и PowerPoint.',
@@ -208,6 +220,7 @@ export const works: Work[] = [
     alt: 'Обложка презентации: «Ваш бизнес может работать, пока вы спите» на тёмном фоне с пятнами света',
   },
   {
+    category: 'site',
     title: 'Почему мурчат котики?',
     type: 'Лонгрид-лендинг',
     text: 'Сайт-история простым языком: как кошки мурчат и зачем им это. Настоящие фото, проверенные факты с источниками и живые интерактивы.',
@@ -225,6 +238,7 @@ export const works: Work[] = [
     alt: 'Главный экран сайта «Почему мурчат котики?»: спящий рыжий кот и крупный заголовок',
   },
   {
+    category: 'bot',
     title: 'Telegram-бот мониторинга',
     type: 'Telegram-бот',
     text: 'Бот следит за сайтом и сам пишет, если тот перестал открываться. По команде показывает статус и статистику посещений, а ещё публикует посты в канал по расписанию.',
