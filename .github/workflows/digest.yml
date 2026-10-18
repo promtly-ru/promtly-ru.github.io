@@ -1,0 +1,32 @@
+name: Morning digest
+
+on:
+  schedule:
+    - cron: "0 5 * * *"   # 08:00 МСК
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+jobs:
+  digest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build and send
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TG_TOKEN: ${{ secrets.TG_TOKEN }}
+          TG_CHAT: ${{ secrets.TG_CHAT_ID }}
+        run: |
+          code=$(curl -s -o /dev/null -w '%{http_code} %{time_total}' https://promtly-ru.github.io/ || echo "000 0")
+          left=$(python3 -c "import json;print(len(json.load(open('bot/queue.json',encoding='utf-8'))))")
+          since=$(date -u -d '24 hours ago' +%Y-%m-%dT%H:%M:%SZ)
+          fails=$(gh api "repos/${{ github.repository }}/actions/runs?created=>=${since}&status=failure&per_page=100" --jq '[.workflow_runs[].name]|group_by(.)|map("\(.[0]) ×\(length)")|join(", ")')
+          text="☀️ Утренний дайджест
+          🌐 Сайт: ${code%% *} (${code##* } с)
+          📝 В очереди постов: ${left}
+          ⚠️ Падения за 24 ч: ${fails:-нет}"
+          curl -fsS "https://api.telegram.org/bot${TG_TOKEN}/sendMessage" --data-urlencode "chat_id=${TG_CHAT}" --data-urlencode "text=${text}" | head -c 60
