@@ -3,7 +3,7 @@ import json
 import os
 
 SITE = "https://promtly-ru.github.io/"
-ORDER = "https://t.me/promptly3"
+ORDER = "https://t.me/nothing8931"
 CHANNEL_LINK = "https://t.me/+XiDWIY2wYiVhN2Rl"
 BANNER = os.path.join(os.path.dirname(os.path.abspath(__file__)), "assets", "banner.png")
 
@@ -40,5 +40,5 @@ WORKS = ("🎯 <b>Кейсы</b>\n\n"
 FAQ = ("❓ <b>Частые вопросы</b>\n\n"
        "<b>Сколько стоит?</b>\nЗависит от задачи. Называю цену и сроки до начала работы.\n\n"
        "<b>Как быстро отвечаете?</b>\nВ течение 24 часов, чаще быстрее. Быстрее всего в Telegram.\n\n"
-       "<b>Как начать?</b>\nНапишите задачу в паре предложений: @promptly3.\n\n"
+       "<b>Как начать?</b>\nНапишите задачу в паре предложений: @nothing8931.\n\n"
        "<b>Что подготовить?</b>\nКороткое описание и примеры, которые нравятся. Остальное уточним.")
