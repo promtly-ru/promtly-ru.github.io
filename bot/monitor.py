@@ -68,7 +68,11 @@ def main():
     if ups:
         call("getUpdates", offset=ups[-1]["update_id"] + 1, timeout=0)
     now = time.time()
+    print("updates:", len(ups), "; webhook:", call("getWebhookInfo").get("result", {}).get("url") or "none")
     for u in ups:
+        k = next((x for x in ("message", "channel_post", "my_chat_member") if x in u), "other")
+        c = (u.get(k) or {}).get("chat", {})
+        print("event", k, c.get("type"), c.get("id"), "age", int(now - (u.get(k) or {}).get("date", now)))
         if now - (u.get("message") or u.get("channel_post") or u.get("my_chat_member") or {}).get("date", 0) > 360:
             continue
         # бота добавили в чат или в канале появился пост: сообщаем владельцу id чата для привязки
