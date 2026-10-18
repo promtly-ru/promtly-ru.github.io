@@ -29,7 +29,7 @@ export function Works() {
         </div>
 
         {shown.map((w, i) => (
-          <article className="card card-spot work work-enter" id={w.id} key={w.title} style={delay(i)} onPointerMove={spotlight}>
+          <article className={`card card-spot work work-enter${w.gallery ? ' work-tall' : ''}`} id={w.id} key={w.title} style={delay(i)} onPointerMove={spotlight}>
             <div className="work-media">
             <a className="work-preview" href={w.url} target="_blank" rel="noopener" aria-label={`${w.cta} «${w.title}» в новой вкладке`}>
               <span className="work-bar" aria-hidden="true"><i /><i /><i /><span>{w.url.replace('https://', '')}</span></span>
@@ -49,7 +49,17 @@ export function Works() {
                 ))}
               </ul>
             )}
-            {w.platforms && !w.gallery && <PlatformDownload work={w} />}
+            {w.platforms && <PlatformDownload work={w} />}
+            {w.downloads && (
+              <div className="work-downloads">
+                <span className="muted">Скачать:</span>
+                {w.downloads.map((d) => (
+                  <a key={d.label} className="work-dl" href={d.url} download>
+                    <Download size={16} aria-hidden="true" /> {d.label} <small>{d.hint}</small>
+                  </a>
+                ))}
+              </div>
+            )}
             </div>
 
             <div className="work-info">
@@ -72,17 +82,6 @@ export function Works() {
                   <MessageSquare size={18} aria-hidden="true" /> Хочу похожий
                 </a>
               </div>
-              {w.platforms && w.gallery && <PlatformDownload work={w} />}
-              {w.downloads && (
-                <div className="work-downloads">
-                  <span className="muted">Скачать:</span>
-                  {w.downloads.map((d) => (
-                    <a key={d.label} className="work-dl" href={d.url} download>
-                      <Download size={16} aria-hidden="true" /> {d.label} <small>{d.hint}</small>
-                    </a>
-                  ))}
-                </div>
-              )}
             </div>
           </article>
         ))}
