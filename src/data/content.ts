@@ -109,7 +109,7 @@ export type Work = {
   downloads?: { label: string; hint: string; url: string }[]
   platforms?: WorkPlatform[]
   /** Доп. материалы под превью: GIF геймплея и ряд миниатюр */
-  demo?: { src: string; alt: string }
+  demo?: { src: string; webm?: string; poster?: string; alt: string }
   gallery?: { src: string; alt: string; caption: string }[]
   version?: string
   releasesUrl?: string
@@ -139,7 +139,7 @@ export const works: Work[] = [
     stack: ['TypeScript', 'React', 'Pixi.js', 'PWA', 'Tauri', 'Capacitor', 'Playwright'],
     url: 'https://promtly-ru.github.io/cyberhack/',
     cta: 'Играть',
-    demo: { src: '/img/works/cyberhack-demo.gif', alt: 'Геймплей CyberHack: меню, выбор класса, карта акта и бой с картами' },
+    demo: { src: '/img/works/cyberhack-demo.mp4', webm: '/img/works/cyberhack-demo.webm', poster: '/img/works/cyberhack-demo-poster.jpg', alt: 'Геймплей CyberHack: меню, выбор класса, карта акта и бой с картами' },
     version: '0.3.0',
     releasesUrl: 'https://github.com/promtly-ru/cyberhack/releases/latest',
     platforms: [

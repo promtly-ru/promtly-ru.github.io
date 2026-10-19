@@ -40,7 +40,12 @@ export function Works() {
               </span>
             </a>
             )}
-            {w.demo && <img className="work-demo" src={w.demo.src} alt={w.demo.alt} width={560} height={350} loading="lazy" />}
+            {w.demo && (
+              <video className="work-demo" poster={w.demo.poster} controls muted loop playsInline preload="metadata" width={560} height={350} aria-label={w.demo.alt}>
+                {w.demo.webm && <source src={w.demo.webm} type="video/webm" />}
+                <source src={w.demo.src} type="video/mp4" />
+              </video>
+            )}
             {w.platforms && <PlatformDownload work={w} />}
             {w.downloads && (
               <div className="work-downloads">
