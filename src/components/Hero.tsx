@@ -72,6 +72,7 @@ import { HeroDecor } from './HeroDecor'
 
 export function Hero() {
   const typed = useTyped(profile.headlineWords)
+  const longest = profile.headlineWords.reduce((a, b) => (b.length > a.length ? b : a), '')
   const fullTitle = `Делаю ${profile.headlineWords.join(', ')} под ваши задачи`
 
   return (
@@ -88,8 +89,14 @@ export function Hero() {
         <p className="eyebrow hero-in" style={delay(0)}>Разработка под ключ</p>
         <h1 className="hero-in" style={delay(100)} aria-label={fullTitle}>
           <span aria-hidden="true">
-            Делаю <span className="typed">{typed}</span>
-            <span className="caret" />
+            Делаю{' '}
+            <span className="typed-wrap">
+              <span className="typed-ghost">{longest}</span>
+              <span className="typed-live">
+                <span className="typed">{typed}</span>
+                <span className="caret" />
+              </span>
+            </span>
             <br />
             под ваши задачи
           </span>

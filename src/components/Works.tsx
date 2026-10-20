@@ -57,6 +57,9 @@ export function Works() {
                 ))}
               </div>
             )}
+              <a className="btn btn-ghost work-similar" href="#brief">
+                <MessageSquare size={18} aria-hidden="true" /> Хочу похожий
+              </a>
             </div>
 
             <div className="work-info">
@@ -71,14 +74,13 @@ export function Works() {
               <ul className="work-stack" aria-label="Технологии">
                 {w.stack.map((s) => <li key={s}>{s}</li>)}
               </ul>
-              <div className="actions">
-                <a className="btn btn-primary" href={w.url} target="_blank" rel="noopener">
-                  {w.cta} <ExternalLink size={18} aria-hidden="true" />
-                </a>
-                <a className="btn btn-ghost" href="#brief">
-                  <MessageSquare size={18} aria-hidden="true" /> Хочу похожий
-                </a>
-              </div>
+              {w.cta !== 'Играть' && (
+                <div className="actions">
+                  <a className="btn btn-primary" href={w.url} target="_blank" rel="noopener">
+                    {w.cta} <ExternalLink size={18} aria-hidden="true" />
+                  </a>
+                </div>
+              )}
             </div>
           </article>
         ))}
