@@ -22,6 +22,7 @@ HOME_KB = kb([
     [b("🟢 Статус сайта", "status"), b("📊 Статистика", "stats")],
     [b("🛠 Услуги", "services"), b("🎯 Кейсы", "works")],
     [b("❓ Вопросы", "faq"), b("💬 Заказать", url=ORDER)],
+    [b("🎮 Играть в Кибер-хакер", url="https://promtly-ru.github.io/cyberhack/")],
     [b("🌐 Сайт", url=SITE), b("📢 Канал", url=CHANNEL_LINK)],
 ])
 BACK_KB = kb([[b("⬅️ В меню", "home"), b("💬 Заказать", url=ORDER)]])
