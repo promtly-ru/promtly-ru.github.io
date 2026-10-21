@@ -116,3 +116,10 @@ main { counter-reset: sec; }
 }
 .work { scroll-margin-top: 90px; }
 .work { overflow: clip; }
+
+/* ---------- Кнопки: единые правки ---------- */
+.btn, .btn-dl, .term-quick button { cursor: pointer; -webkit-tap-highlight-color: transparent; user-select: none; }
+.btn { min-height: 44px; justify-content: center; line-height: 1.2; white-space: normal; text-align: center; }
+.btn:focus-visible, .btn-dl:focus-visible, .term-quick button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.btn[disabled], .btn[aria-disabled="true"] { opacity: 0.55; cursor: not-allowed; pointer-events: none; transform: none; box-shadow: none; }
+@media (hover: none) { .btn:hover { transform: none; } .btn:active { transform: scale(0.98); } }
