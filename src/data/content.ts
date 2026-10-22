@@ -117,7 +117,7 @@ export type Work = {
   alt: string
 }
 
-const CYBERHACK_DL = 'https://github.com/promtly-ru/cyberhack/releases/download/v0.6.0/'
+const CYBERHACK_DL = 'https://github.com/promtly-ru/cyberhack/releases/download/v0.6.2/'
 const WEB_APP = 'https://promtly-ru.github.io/smartcalc/'
 const DECK = 'https://promtly-ru.github.io/ai-presentation/'
 export const presentationUrl = DECK
@@ -142,7 +142,7 @@ export const works: Work[] = [
     url: 'https://promtly-ru.github.io/cyberhack/',
     cta: 'Играть',
     demo: { src: '/img/works/cyberhack-demo.mp4?v=060', webm: '/img/works/cyberhack-demo.webm?v=060', poster: '/img/works/cyberhack-demo-poster.jpg?v=060', alt: 'Геймплей CyberHack 0.6: меню, выбор класса, карта забега, бой с новыми картами и экран наград' },
-    version: '0.6.0',
+    version: '0.6.2',
     releasesUrl: 'https://github.com/promtly-ru/cyberhack/releases/latest',
     platforms: [
       {
@@ -150,8 +150,8 @@ export const works: Work[] = [
         label: 'Windows',
         requirements: 'Windows 10/11, 64-bit',
         downloads: [
-          { label: 'Скачать для Windows', hint: 'установщик .exe', url: `${CYBERHACK_DL}CyberHack_0.6.0_x64-setup.exe` },
-          { label: 'Установщик .msi', hint: 'для администраторов', url: `${CYBERHACK_DL}CyberHack_0.6.0_x64_en-US.msi` },
+          { label: 'Скачать для Windows', hint: 'установщик .exe', url: `${CYBERHACK_DL}CyberHack_0.6.2_x64-setup.exe` },
+          { label: 'Установщик .msi', hint: 'для администраторов', url: `${CYBERHACK_DL}CyberHack_0.6.2_x64_en-US.msi` },
         ],
         note: 'Приложение не подписано платным сертификатом, поэтому SmartScreen может предупредить: нажмите «Подробнее» → «Выполнить в любом случае».',
       },
@@ -159,7 +159,7 @@ export const works: Work[] = [
         id: 'mac',
         label: 'macOS',
         requirements: 'Mac на Apple Silicon (M1 и новее)',
-        downloads: [{ label: 'Скачать для Mac', hint: 'образ .dmg', url: `${CYBERHACK_DL}CyberHack_0.6.0_aarch64.dmg` }],
+        downloads: [{ label: 'Скачать для Mac', hint: 'образ .dmg', url: `${CYBERHACK_DL}CyberHack_0.6.2_aarch64.dmg` }],
         note: 'Правый клик по приложению → «Открыть». Если macOS пишет «повреждено», выполните в Терминале: xattr -cr /Applications/CyberHack.app',
       },
       {
@@ -167,9 +167,9 @@ export const works: Work[] = [
         label: 'Linux',
         requirements: 'Любой 64-bit дистрибутив',
         downloads: [
-          { label: 'Скачать AppImage', hint: 'запускается везде', url: `${CYBERHACK_DL}CyberHack_0.6.0_amd64.AppImage` },
-          { label: 'Пакет .deb', hint: 'Debian, Ubuntu', url: `${CYBERHACK_DL}CyberHack_0.6.0_amd64.deb` },
-          { label: 'Пакет .rpm', hint: 'Fedora, openSUSE', url: `${CYBERHACK_DL}CyberHack-0.6.0-1.x86_64.rpm` },
+          { label: 'Скачать AppImage', hint: 'запускается везде', url: `${CYBERHACK_DL}CyberHack_0.6.2_amd64.AppImage` },
+          { label: 'Пакет .deb', hint: 'Debian, Ubuntu', url: `${CYBERHACK_DL}CyberHack_0.6.2_amd64.deb` },
+          { label: 'Пакет .rpm', hint: 'Fedora, openSUSE', url: `${CYBERHACK_DL}CyberHack-0.6.2-1.x86_64.rpm` },
         ],
         note: 'Для AppImage сделайте файл исполняемым: chmod +x CyberHack_*.AppImage',
       },
@@ -177,7 +177,7 @@ export const works: Work[] = [
         id: 'android',
         label: 'Android',
         requirements: 'Android 7 и новее',
-        downloads: [{ label: 'Скачать для Android', hint: 'файл .apk', url: `${CYBERHACK_DL}CyberHack-v0.6.0-android-debug.apk` }],
+        downloads: [{ label: 'Скачать для Android', hint: 'файл .apk', url: `${CYBERHACK_DL}CyberHack-v0.6.2-android-debug.apk` }],
         note: 'Разрешите установку из неизвестных источников. Файл подписан тестовым ключом, поэтому новую версию иногда придётся ставить поверх удалённой старой.',
       },
       {
