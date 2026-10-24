@@ -117,9 +117,8 @@ export type Work = {
   alt: string
 }
 
-const CYBERHACK_DL = 'https://github.com/promtly-ru/cyberhack/releases/download/v0.6.4/'
-// Сборка для Mac в 0.6.4 не вышла (нет macOS-раннера) — ссылка на 0.6.3
-const CYBERHACK_DL_MAC = 'https://github.com/promtly-ru/cyberhack/releases/download/v0.6.3/'
+const CYBERHACK_DL = 'https://github.com/promtly-ru/cyberhack/releases/download/v0.6.5/'
+const CYBERHACK_DL_MAC = CYBERHACK_DL
 const WEB_APP = 'https://promtly-ru.github.io/smartcalc/'
 const DECK = 'https://promtly-ru.github.io/ai-presentation/'
 export const presentationUrl = DECK
@@ -130,9 +129,11 @@ export const works: Work[] = [
     category: 'game',
     title: 'CyberHack',
     type: 'Игра',
-    text: 'Карточный roguelike в неоновом киберпанке: собираешь колоду программ-взломщиков и проходишь четыре акта охранных систем. Каждую неделю — новый общий вызов с рейтингом, а режим «Перегрев» добавляет риск ради силы. Играется в браузере, на телефоне и ставится как приложение.',
+    text: 'Карточный roguelike в неоновом киберпанке: собираешь колоду программ-взломщиков и проходишь четыре акта охранных систем. Импланты бывают полезными и вредными: цвет решает силу — от красного дебаффа до золотого и редкого Классового. Каждую неделю — новый общий вызов с рейтингом, а режим «Перегрев» добавляет риск ради силы. Играется в браузере, на телефоне и ставится как приложение.',
     features: [
-      '9 классов, 450+ карт с условиями, ростом силы и пассивными модулями, у каждого класса по 3 архетипа сборки; 90+ реликвий, расходники, мутаторы и 15 уровней сложности',
+      '9 классов, 450+ карт с условиями, ростом силы и пассивными модулями, у каждого класса по 3 архетипа сборки; расходники, мутаторы и 15 уровней сложности',
+      'Импланты v2: 140+ имплантов 7 цветов — красные вредят, серые, зелёные, синие, фиолетовые и золотые усиливают. У каждого своё условие: N боёв, до босса, до выполнения задачи или весь забег. Полный Классовый имплант — шанс 1%, узел «Маяк» поднимает до 5%',
+      'Новые узлы карты: Перехват, Синтезатор (2 импланта → 1 на цвет выше), Рипердок, Карантин и Маяк',
       'Еженедельный вызов: общий сид, мутаторы и правило недели, 3 попытки, рейтинг топ-50 и титул. Плюс ачивки, которые открывают новые карты',
       'Режим «Перегрев»: шкала Heat усиливает и тебя, и врагов, а на 100 расплавляет — можно охладиться за HP',
       'Вход по почте (в приложении — по паролю или коду из письма) и облачные сохранения, кнопка «Предложить идею» прямо в меню',
@@ -143,8 +144,8 @@ export const works: Work[] = [
     stack: ['TypeScript', 'React', 'Pixi.js', 'PWA', 'Tauri', 'Capacitor', 'Playwright'],
     url: 'https://promtly-ru.github.io/cyberhack/',
     cta: 'Играть',
-    demo: { src: '/img/works/cyberhack-demo.mp4?v=060', webm: '/img/works/cyberhack-demo.webm?v=060', poster: '/img/works/cyberhack-demo-poster.jpg?v=060', alt: 'Геймплей CyberHack 0.6: меню, выбор класса, карта забега, бой с новыми картами и экран наград' },
-    version: '0.6.4',
+    demo: { src: '/img/works/cyberhack-demo.mp4?v=065', webm: '/img/works/cyberhack-demo.webm?v=065', poster: '/img/works/cyberhack-demo-poster.jpg?v=065', alt: 'Геймплей CyberHack 0.6.5: меню, выбор класса, карта, бой, получение импланта, меню имплантов и Синтезатор' },
+    version: '0.6.5',
     releasesUrl: 'https://github.com/promtly-ru/cyberhack/releases/latest',
     platforms: [
       {
@@ -152,8 +153,8 @@ export const works: Work[] = [
         label: 'Windows',
         requirements: 'Windows 10/11, 64-bit',
         downloads: [
-          { label: 'Скачать для Windows', hint: 'установщик .exe', url: `${CYBERHACK_DL}CyberHack_0.6.4_x64-setup.exe` },
-          { label: 'Установщик .msi', hint: 'для администраторов', url: `${CYBERHACK_DL}CyberHack_0.6.4_x64_en-US.msi` },
+          { label: 'Скачать для Windows', hint: 'установщик .exe', url: `${CYBERHACK_DL}CyberHack_0.6.5_x64-setup.exe` },
+          { label: 'Установщик .msi', hint: 'для администраторов', url: `${CYBERHACK_DL}CyberHack_0.6.5_x64_en-US.msi` },
         ],
         note: 'Приложение не подписано платным сертификатом, поэтому SmartScreen может предупредить: нажмите «Подробнее» → «Выполнить в любом случае».',
       },
@@ -161,7 +162,7 @@ export const works: Work[] = [
         id: 'mac',
         label: 'macOS',
         requirements: 'Mac на Apple Silicon (M1 и новее)',
-        downloads: [{ label: 'Скачать для Mac', hint: 'образ .dmg', url: `${CYBERHACK_DL_MAC}CyberHack_0.6.3_aarch64.dmg` }],
+        downloads: [{ label: 'Скачать для Mac', hint: 'образ .dmg', url: `${CYBERHACK_DL_MAC}CyberHack_0.6.5_aarch64.dmg` }],
         note: 'Правый клик по приложению → «Открыть». Если macOS пишет «повреждено», выполните в Терминале: xattr -cr /Applications/CyberHack.app',
       },
       {
@@ -169,9 +170,9 @@ export const works: Work[] = [
         label: 'Linux',
         requirements: 'Любой 64-bit дистрибутив',
         downloads: [
-          { label: 'Скачать AppImage', hint: 'запускается везде', url: `${CYBERHACK_DL}CyberHack_0.6.4_amd64.AppImage` },
-          { label: 'Пакет .deb', hint: 'Debian, Ubuntu', url: `${CYBERHACK_DL}CyberHack_0.6.4_amd64.deb` },
-          { label: 'Пакет .rpm', hint: 'Fedora, openSUSE', url: `${CYBERHACK_DL}CyberHack-0.6.4-1.x86_64.rpm` },
+          { label: 'Скачать AppImage', hint: 'запускается везде', url: `${CYBERHACK_DL}CyberHack_0.6.5_amd64.AppImage` },
+          { label: 'Пакет .deb', hint: 'Debian, Ubuntu', url: `${CYBERHACK_DL}CyberHack_0.6.5_amd64.deb` },
+          { label: 'Пакет .rpm', hint: 'Fedora, openSUSE', url: `${CYBERHACK_DL}CyberHack-0.6.5-1.x86_64.rpm` },
         ],
         note: 'Для AppImage сделайте файл исполняемым: chmod +x CyberHack_*.AppImage',
       },
@@ -179,7 +180,7 @@ export const works: Work[] = [
         id: 'android',
         label: 'Android',
         requirements: 'Android 7 и новее',
-        downloads: [{ label: 'Скачать для Android', hint: 'файл .apk', url: `${CYBERHACK_DL}CyberHack-v0.6.4-android-debug.apk` }],
+        downloads: [{ label: 'Скачать для Android', hint: 'файл .apk', url: `${CYBERHACK_DL}CyberHack-v0.6.5-android-debug.apk` }],
         note: 'Разрешите установку из неизвестных источников. Файл подписан тестовым ключом, поэтому новую версию иногда придётся ставить поверх удалённой старой.',
       },
       {
