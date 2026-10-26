@@ -164,7 +164,7 @@ export function Terminal({ onToggleTheme }: { onToggleTheme: () => void }) {
       case 'ping':
         return out('PONG! Сайт жив, отвечает быстро.')
       case 'neofetch':
-        return out(['guest@promptly', '--------------', 'OS:     Web 2026', 'Stack:  React + Vite + TypeScript', 'Host:   GitHub Pages', 'Bots:   Python + Actions', `Uptime: ${Math.round(performance.now() / 1000)} с`].join('\n'))
+        return out(['guest@promptly', '--------------', `OS:     Web ${new Date().getFullYear()}`, 'Stack:  React + Vite + TypeScript', 'Host:   GitHub Pages', 'Bots:   Python + Actions', `Uptime: ${Math.round(performance.now() / 1000)} с`].join('\n'))
       case 'cowsay':
         return out([' ______________', '< Закажи сайт! >', ' --------------', '        \\   ^__^', '         \\  (oo)\\_______', '            (__)\\       )\\/\\', '                ||----w |', '                ||     ||'].join('\n'))
       case 'import this':

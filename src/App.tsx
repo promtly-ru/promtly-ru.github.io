@@ -51,7 +51,7 @@ export default function App() {
       <Footer />
       <SideNav />
       <Toast />
-      <a className="tg-fab" href={contacts.telegram.url} target="_blank" rel="noreferrer" aria-label="Написать в Telegram">
+      <a className="tg-fab" href={contacts.telegram.url} target="_blank" rel="noopener noreferrer" aria-label="Написать в Telegram">
         <Send size={24} aria-hidden="true" />
         <span className="tg-fab-tip" aria-hidden="true">Написать в Telegram</span>
       </a>

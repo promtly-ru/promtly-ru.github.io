@@ -74,7 +74,7 @@ export function Contacts() {
               style={{ '--d': `${i * 100}ms` } as CSSProperties}
               onPointerMove={spotlight}
             >
-              <a className="contact-link" href={url} {...(external ? { target: '_blank', rel: 'noreferrer' } : {})}>
+              <a className="contact-link" href={url} {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}>
                 <span className="card-icon"><Icon size={main ? 28 : 22} aria-hidden="true" /></span>
                 <span>
                   <strong>{label}{main && <span className="contact-tag">быстрее всего</span>}</strong>

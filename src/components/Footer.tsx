@@ -30,8 +30,8 @@ export function Footer() {
 
         <div className="footer-col">
           <h3>Связаться</h3>
-          <a href={contacts.telegram.url} target="_blank" rel="noreferrer">Telegram · {contacts.telegram.value}</a>
-          <a href={contacts.whatsapp.url} target="_blank" rel="noreferrer">WhatsApp · {contacts.whatsapp.value}</a>
+          <a href={contacts.telegram.url} target="_blank" rel="noopener noreferrer">Telegram · {contacts.telegram.value}</a>
+          <a href={contacts.whatsapp.url} target="_blank" rel="noopener noreferrer">WhatsApp · {contacts.whatsapp.value}</a>
           <a href={contacts.email.url}>{contacts.email.value}</a>
         </div>
 
@@ -40,8 +40,8 @@ export function Footer() {
           <a href="#smartcalc">
             <Download size={14} aria-hidden="true" /> Скачать v{smartcalc.version}
           </a>
-          <a href={smartcalc.webAppUrl} target="_blank" rel="noreferrer">Веб-версия</a>
-          <a href={smartcalc.releasesUrl} target="_blank" rel="noreferrer">Все версии на GitHub</a>
+          <a href={smartcalc.webAppUrl} target="_blank" rel="noopener noreferrer">Веб-версия</a>
+          <a href={smartcalc.releasesUrl} target="_blank" rel="noopener noreferrer">Все версии на GitHub</a>
         </div>
       </div>
 

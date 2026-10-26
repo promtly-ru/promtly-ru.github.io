@@ -34,7 +34,7 @@ export function PlatformDownload({ work }: { work: Work }) {
               key={d.url}
               className={`btn ${i === 0 ? 'btn-primary btn-shine' : 'btn-ghost'} btn-dl`}
               href={d.url}
-              {...(d.web ? { target: '_blank', rel: 'noreferrer' } : {})}
+              {...(d.web ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
             >
               {d.web ? <ExternalLink size={18} aria-hidden="true" /> : <Download size={18} aria-hidden="true" />}
               <span>
@@ -48,7 +48,7 @@ export function PlatformDownload({ work }: { work: Work }) {
           Версия {work.version} · {platform.requirements}
           {work.releasesUrl ? (
             <>
-              {' '}· <a href={work.releasesUrl} target="_blank" rel="noreferrer">все версии</a>
+              {' '}· <a href={work.releasesUrl} target="_blank" rel="noopener noreferrer">все версии</a>
             </>
           ) : null}
         </p>

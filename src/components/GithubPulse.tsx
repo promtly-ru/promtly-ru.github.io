@@ -45,7 +45,7 @@ export function GithubPulse() {
   const date = new Date(pulse.pushed).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' })
   const word = pulse.repos === 1 ? 'репозиторий' : pulse.repos < 5 ? 'репозитория' : 'репозиториев'
   return (
-    <a className="gh-pulse" href="https://github.com/promtly-ru" target="_blank" rel="noreferrer" data-reveal>
+    <a className="gh-pulse" href="https://github.com/promtly-ru" target="_blank" rel="noopener noreferrer" data-reveal>
       <GitBranch size={18} aria-hidden="true" />
       <span>
         Открытый код на GitHub: <b>{pulse.repos}</b> {word} · обновлено {date}

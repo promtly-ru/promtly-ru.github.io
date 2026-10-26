@@ -124,7 +124,7 @@ export function Brief() {
                 className="btn btn-primary btn-shine btn-tg-main magnetic"
                 href={telegram}
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
                 onClick={() => {
                   // Текст подставляется ссылкой, а копия в буфере — запасной вариант, если клиент его не принял
                   copy(true).then((ok) => ok && toast('Заявка скопирована — если она не появилась в чате, вставьте её'))
@@ -133,7 +133,7 @@ export function Brief() {
               >
                 <Send size={20} aria-hidden="true" /> Отправить в Telegram
               </a>
-              <a className="btn btn-ghost magnetic" href={whatsapp} target="_blank" rel="noreferrer" onClick={sent}>
+              <a className="btn btn-ghost magnetic" href={whatsapp} target="_blank" rel="noopener noreferrer" onClick={sent}>
                 <MessageCircle size={18} aria-hidden="true" /> WhatsApp
               </a>
               <a className="btn btn-ghost magnetic" href={email} onClick={sent}>

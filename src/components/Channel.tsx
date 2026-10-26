@@ -18,7 +18,7 @@ export function Channel() {
               ))}
             </ul>
           </div>
-          <a className="btn btn-primary btn-shine magnetic" href={channel.url} target="_blank" rel="noreferrer">
+          <a className="btn btn-primary btn-shine magnetic" href={channel.url} target="_blank" rel="noopener noreferrer">
             <Send size={18} aria-hidden="true" /> Подписаться на канал
           </a>
         </div>

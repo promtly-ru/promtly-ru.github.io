@@ -123,3 +123,9 @@ main { counter-reset: sec; }
 .btn:focus-visible, .btn-dl:focus-visible, .term-quick button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 .btn[disabled], .btn[aria-disabled="true"] { opacity: 0.55; cursor: not-allowed; pointer-events: none; transform: none; box-shadow: none; }
 @media (hover: none) { .btn:hover { transform: none; } .btn:active { transform: scale(0.98); } }
+
+/* Видимый фокус с клавиатуры */
+:where(a, button, input, textarea, select, summary, [tabindex]):focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* FAB не закрывают контролы видео в работах */
+@media (max-width: 900px) { .work-demo { margin-bottom: 72px; } }

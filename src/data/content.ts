@@ -346,7 +346,7 @@ export const smartcalc = {
       label: 'macOS',
       requirements: 'Mac на Apple Silicon или Intel',
       downloads: [
-        { label: 'Скачать для Mac', hint: 'Apple Silicon (M1–M4)', url: `${REL}SmartCalc-mac-arm64.dmg` },
+        { label: 'Скачать для Mac', hint: 'Apple Silicon (M1 и новее)', url: `${REL}SmartCalc-mac-arm64.dmg` },
         { label: 'Mac с Intel', hint: '.dmg', url: `${REL}SmartCalc-mac-x64.dmg` },
       ],
       note: 'Перетащите SmartCalc в «Программы». При первом запуске macOS попросит подтверждение: «Системные настройки» → «Конфиденциальность и безопасность» → «Всё равно открыть».',
