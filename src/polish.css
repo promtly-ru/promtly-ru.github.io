@@ -129,3 +129,40 @@ main { counter-reset: sec; }
 
 /* FAB не закрывают контролы видео в работах */
 @media (max-width: 900px) { .work-demo { margin-bottom: 72px; } }
+
+/* ---------- Единая система кнопок (2026-10-27) ---------- */
+.btn { padding: 12px 22px; border-radius: 12px; font-size: 1rem; letter-spacing: 0.005em; }
+.btn-primary { border-color: color-mix(in srgb, var(--accent) 80%, #000); }
+.btn-primary:hover { filter: brightness(1.06); }
+.btn-primary:active { filter: brightness(0.94); box-shadow: none; }
+.btn-ghost { color: var(--fg); }
+.btn-ghost:hover { background: var(--accent-soft); color: var(--fg); }
+.btn-ghost:active { background: color-mix(in srgb, var(--accent) 18%, var(--card)); }
+.btn:focus-visible { outline-offset: 3px; box-shadow: 0 0 0 4px var(--accent-soft); }
+.actions .btn { min-width: 180px; }
+
+/* Иконочные кнопки и чипы: единый размер и состояния */
+.icon-btn { min-width: 44px; min-height: 44px; transition: border-color 0.2s, color 0.2s, background-color 0.2s, transform 0.2s var(--ease); }
+.icon-btn:hover { background: var(--accent-soft); }
+.icon-btn:active { transform: scale(0.95); }
+.chip { min-height: 44px; }
+.chip:active { transform: scale(0.97); }
+.platform { min-height: 44px; }
+.hint-chip { min-height: 44px; padding: 8px 16px; }
+.hint-chip:active { transform: scale(0.97); }
+.work-dl { min-height: 44px; border-bottom: 0; text-decoration: underline dashed color-mix(in srgb, var(--muted) 60%, transparent); text-underline-offset: 6px; }
+.work-dl:hover { text-decoration-color: var(--accent); }
+
+@media (max-width: 640px) {
+  .actions { flex-direction: column; align-items: stretch; }
+  .actions .btn { width: 100%; }
+  .hint-chip { flex: 1 1 auto; justify-content: center; }
+  .btn, .chip, .platform, .hint-chip, .icon-btn { min-height: 48px; }
+}
+
+/* Тап-зоны ссылок подвала, быстрых команд терминала, кнопки «наверх» */
+.footer-col a, .footer-top { display: inline-flex; align-items: center; min-height: 44px; }
+.footer-col { gap: 0; }
+.to-top { width: 48px; height: 48px; }
+.term-quick button { min-height: 44px; padding-inline: 14px; }
+@media (min-width: 901px) { .footer-col a, .footer-top { min-height: 32px; } .term-quick button { min-height: 36px; } }
