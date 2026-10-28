@@ -41,7 +41,7 @@ export function Works() {
             </a>
             )}
             {w.demo && (
-              <video className="work-demo" poster={w.demo.poster} controls muted loop playsInline preload="metadata" width={560} height={350} aria-label={w.demo.alt}>
+              <video className="work-demo" poster={w.demo.poster} controls muted loop playsInline preload="none" width={560} height={350} aria-label={w.demo.alt}>
                 {w.demo.webm && <source src={w.demo.webm} type="video/webm" />}
                 <source src={w.demo.src} type="video/mp4" />
               </video>
